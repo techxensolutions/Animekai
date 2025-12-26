@@ -3,7 +3,7 @@ import { Bookmark, Mic2Icon } from 'lucide-react'
 const ItemDetails = ({currentItem,currentIndex}) => {
   return (
     <>
-     <div key={currentIndex} className='relative w-full text-white space-y-6 self-end mb-20 animate-fade transition-all duration-100'>
+     <div key={currentIndex} className='max-sm:mt-12 relative w-full text-white space-y-6 sm:self-end sm:mb-20 animate-fade transition-all duration-100'>
       <h1 className='text-5xl font-bold'>{currentItem.name}</h1>
       <div className='flex gap-2 items-center'>
         <span className='bg-[#e45f3a1e] text-[10px] p-px text-[#E45F3A] border border-[#E45F3A] rounded-md'>CC 8</span>
@@ -18,7 +18,7 @@ const ItemDetails = ({currentItem,currentIndex}) => {
       <p className='w-1/2 text-sm leading-6.5'>
         {currentItem.description}
       </p>
-      <div className='bg-black/80 p-4 rounded-xl flex justify-between max-w-[30%]'>
+      <div className='bg-black/80 p-4 rounded-xl flex justify-between max-w-[90%] sm:max-w-[50%] md:max-w-[30%]'>
       <div className='flex flex-col gap-2 font-bold'>
         <span className='text-gray-400 text-sm'>Rating</span>
         <span className='text-white text-lg'>{currentItem.rating}</span>
@@ -32,7 +32,7 @@ const ItemDetails = ({currentItem,currentIndex}) => {
         <span className='text-white text-lg'>{currentItem.quality}</span>
       </div>
       </div>
-      <div className='flex gap-12 items-center'>
+      <div className='flex gap-12 items-center flex-wrap'>
         <button className='bg-[#E45F3A] text-2xl px-12 py-2 rounded-lg'>
             Watch Now
         </button>

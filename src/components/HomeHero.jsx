@@ -12,9 +12,9 @@ const HomeHero = () => {
   const currentItem=heroitems[currentIndex];
   return (
     <>
-      <section key={currentIndex} className={`min-h-screen bg-cover bg-center relative flex items-center pl-8 transition-all duration-75 ease-in-out animate-fade`} style={{ backgroundImage: `url(${currentItem.image})` }}>
+      <section key={currentIndex} className={`min-h-[calc(100vh+60px)] bg-cover bg-center relative flex items-center max-md:justify-center pl-8 transition-all duration-75 ease-in-out animate-fade`} style={{ backgroundImage: `url(${currentItem.image})` }}>
       <div className='herogradient inset-0 h-full w-full absolute'/>
-      <div className='text-white text-xl absolute bottom-5 right-9 flex gap-4 items-center'>
+      <div className='text-white text-xl absolute z-10 bottom-5 right-9 flex gap-4 items-center'>
         <button>&lt;</button>
         <div className='space-x-3'>
         <span className='text-3xl'>{currentIndex+1}</span>
