@@ -1,13 +1,14 @@
-import { Filter, Search, Share2 } from "lucide-react";
+import { Filter, MenuIcon, Search, Share2, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   FaTelegram,
   FaTwitter,
   FaFacebook,
   FaDiscord,
-  FaShare,
 } from "react-icons/fa";
+import { useState } from "react";
 const Home = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const shares = [
     { name: FaTelegram, color: "bg-blue-500" },
     { name: FaTwitter, color: "bg-black" },
@@ -16,13 +17,15 @@ const Home = () => {
   ];
   return (
     <>
-      <header className="max-sm:hidden w-screen flex justify-center items-center py-7 text-white">
-        <nav className="mx-auto">
-          <ul className="flex gap-8">
+      <header className="max-sm:relative flex justify-center items-center py-7 text-white">
+        {isOpen ? <X onClick={()=>setIsOpen(false)} className="sm:hidden h-5 w-5 absolute top-2 right-2"/>
+        :<MenuIcon onClick={()=>setIsOpen(true)} className="sm:hidden h-5 w-5 absolute top-2 right-2"/>}
+        <nav className={`${isOpen ? "" : "max-sm:hidden"} mx-auto`}>
+          <ul className="max-sm:flex-col max-sm:text-center flex gap-8">
             {["Home", "Movies", "TV Series", "New Releases", "Ongoing"].map(
               (item, ind) => {
                 return <li key={ind}>
-                  <Link to={item.replaceAll(" ","-")} class="hover:text-[#ee559ce5]">
+                  <Link to={`/${item.replaceAll(" ","-")}`} class="hover:text-[#ee559ce5]">
                   {item}
                   </Link>
                   </li>;
@@ -31,7 +34,7 @@ const Home = () => {
           </ul>
         </nav>
       </header>
-      <section className="relative flex justify-center items-center overflow-hidden h-screen bg-[url('./images/hero.jpg')] rounded-4xl sm:mx-11 bg-size-120 bg-center bg-no-repeat">
+      <section className="relative flex justify-center items-center overflow-hidden h-screen bg-[url('./images/hero.jpg')] sm:rounded-4xl sm:mx-11 bg-size-120 bg-center bg-no-repeat">
         <div class="absolute inset-0 bg-black/70"></div>
         <div className="relative z-10 w-[50%] flex justify-center items-center flex-col gap-4">
           <img
@@ -87,7 +90,7 @@ const Home = () => {
           <Share2 />
         </button>
       </div>
-      <section className="w-full md:w-[90%] mx-auto space-y-3 px-4 md:px-0 leading-7 font-poppins text-[#ccc]">
+      <section className="w-full md:w-[90%] md:mx-11 space-y-3 px-4 md:px-0 leading-7 font-poppins text-[#ccc]">
         <h1 className="text-xl md:text-[1.8rem] leading-8 text-white font-bold">
           AnimeKai : THE BEST SITE TO WATCH ANIME ONLINE FOR FREE
         </h1>

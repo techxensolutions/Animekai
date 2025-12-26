@@ -1,13 +1,11 @@
 import { Outlet } from 'react-router-dom'
 import './App.css'
 import Footer from './components/Footer'
-import Header from './components/Header'
 
-function App() {
+function BlankLayout() {
 
   return (
     <>
-    <Header/>
     <main className='max-w-screen overflow-hidden'>
     <Outlet/>
     </main>
@@ -16,4 +14,4 @@ function App() {
   )
 }
 
-export default App
+export default BlankLayout

@@ -3,3 +3,19 @@
     background: #0C1116;
     font-family: Arial, Helvetica, sans-serif;
 }
+.herogradient{
+    background: linear-gradient(90deg, #0c1116 0%, #0c1116cc 30%, #0c111666 60%, #0c111626 85%, #0c111600 100%);;
+}
+@keyframes fadeIn{
+    0%{
+        opacity: 0%;
+        transform: translateY(10px);
+    }
+    100%{
+        opacity: 100%;
+        transform: translateY(0px);
+    }
+}
+.animate-fade {
+  animation: fadeIn 0.7s ease-out forwards;
+}
