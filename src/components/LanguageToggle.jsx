@@ -4,7 +4,7 @@ const LanguageToggle = () => {
     const [language, setLanguage] = useState('en');
   return (
     <>
-      <div className="relative flex w-36 h-7 bg-[#1A1F26] rounded-full cursor-pointer">
+      <div className="relative flex w-28 h-7 bg-[#1A1F26] rounded-full cursor-pointer">
         
         <div 
           className={`absolute h-full w-1/2 bg-[#EB5E3D] rounded-full transition-all duration-300 ease-in-out ${
