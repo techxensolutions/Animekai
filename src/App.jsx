@@ -8,7 +8,7 @@ function App() {
   return (
     <>
     <Header/>
-    <main className='max-w-screen overflow-hidden'>
+    <main className='min-w-screen overflow-hidden'>
     <Outlet/>
     </main>
     <Footer/>

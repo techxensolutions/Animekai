@@ -14,7 +14,9 @@ const Header = () => {
     <header className='bg-[#0C1116] flex justify-between m-4 mx-6 rounded-2xl p-3 fixed z-2 top-0 right-0 left-0'>
         <div className='flex gap-3 items-center relative'>
       <Menu onClick={()=>setShowDropdown(prev=>!prev)} className='text-white cursor-pointer'/>
-      <img src="/images/logo.png" alt="logo" width={"150px"} height={"auto"} />
+        <Link to={"/"}>
+        <img src="/images/logo.png" alt="logo" width={"150px"} height={"auto"} />
+        </Link>
       {
         showDropdown && <div className='max-[835px]:hidden w-48 overflow-hidden bg-[#181d22] absolute z-3 left-0 top-[calc(100%+15px)] text-white rounded-md'>
         <button onClick={()=>setShowGenres(prev=>!prev)} className='flex justify-between w-full items-center cursor-pointer font-bold hover:bg-[#2A2F38] p-3 text-sm'>
@@ -89,7 +91,7 @@ const Header = () => {
         </div>
     </header>
 
-    <div className={`transition-all duration-200 min-[835px]:hidden fixed top-0 ${showDropdown===true ? "left-0" : "-left-137.5"} w-screen h-screen overflow-hidden bg-[#181d22] z-1000 text-white rounded-md flex flex-col overflow-y-scroll`}>
+    <div className={`transition-all duration-200 min-[835px]:hidden fixed top-0 ${showDropdown===true ? "left-0" : "-left-175"} w-screen h-screen overflow-hidden bg-[#181d22] z-1000 text-white rounded-md flex flex-col overflow-y-scroll`}>
             <X onClick={()=>setShowDropdown(false)} className='w-7 h-7 font-bold absolute top-6 left-4 hover:cursor-pointer'/>
         <button onClick={()=>setShowGenres(prev=>!prev)} className='flex justify-between w-full items-center cursor-pointer font-bold hover:bg-[#2A2F38] p-3 text-sm mt-16'>
           <span>GENRES</span>
@@ -131,6 +133,19 @@ const Header = () => {
         <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         RECENT
         </Link>
+        <div className='w-full flex gap-4 min-[835px]:hidden max-[835px]:justify-center max-[835px]:flex-wrap'>
+
+          <Link to={"/"} >
+          <Users2 className='h-7 w-7 text-white'/>
+          </Link>
+          <Link to={"/"} >
+          <Shuffle className='h-7 w-7 text-white'/>
+          </Link>
+          <LanguageToggle/>
+          <Link to={"/"} className='rounded-full bg-gray-800 p-2'>
+          <User2 className='w-5 h-5 text-white'/>
+          </Link>
+          </div>
       </div>
     </>
   )

@@ -3,7 +3,7 @@ import { Bookmark, Mic2Icon } from 'lucide-react'
 const ItemDetails = ({currentItem,currentIndex}) => {
   return (
     <>
-     <div key={currentIndex} className='max-sm:mt-12 relative w-full text-white space-y-6 sm:self-end sm:mb-20 animate-fade transition-all duration-100'>
+     <div key={currentIndex} className='max-sm:mt-12 relative w-full text-white space-y-6 sm:self-end sm:mb-28 animate-fade transition-all duration-100 ml-14'>
       <h1 className='text-5xl font-bold'>{currentItem.name}</h1>
       <div className='flex gap-2 items-center'>
         <span className='bg-[#e45f3a1e] text-[10px] p-px text-[#E45F3A] border border-[#E45F3A] rounded-md'>CC 8</span>
