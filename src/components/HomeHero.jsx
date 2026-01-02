@@ -1,7 +1,9 @@
 import heroitems from "../data/heroitems.json"
 import { useEffect, useState } from 'react'
 import HeroItemDetails from './HeroItemDetails';
+import Tops from './Tops';
 import Share from "./Share";
+import { Mic2Icon, Trophy } from "lucide-react";
 const HomeHero = () => {
   const [currentIndex,setCurrentIndex] = useState(0);
   useEffect(()=>{
@@ -13,7 +15,7 @@ const HomeHero = () => {
   const currentItem=heroitems[currentIndex];
   return (
     <>
-      <section key={currentIndex} className={`min-h-[calc(100vh+60px)] bg-cover bg-center relative flex items-center max-md:justify-center box-border transition-all duration-75 ease-in-out animate-fade`} style={{ backgroundImage: `url(${currentItem.image})` }}>
+      <section key={currentIndex} className={`min-h-[calc(100vh+60px)] bg-cover bg-center relative flex items-center max-md:justify-center box-border transition-all duration-75 ease-in-out animate-fade overflow-x-hidden`} style={{ backgroundImage: `url(${currentItem.image})` }}>
       <div className='herogradient inset-0 h-full w-full absolute'/>
       <div className='text-white text-xl absolute z-10 bottom-5 right-9 flex gap-4 items-center'>
         <button>&lt;</button>
@@ -26,9 +28,9 @@ const HomeHero = () => {
       </div>
       <HeroItemDetails currentIndex={currentIndex} currentItem={currentItem} />
       </section>
-      <div className="relative z-100 w-[70%]">
+      <div className="relative z-100 w-full">
 
-      <div className="absolute -bottom-18 left-5 bg-[#11161b] p-3 rounded-xl w-full">
+      <div className="absolute -bottom-18 left-5 bg-[#11161b] p-3 rounded-xl w-[70%]">
           <div className="flex w-full justify-between">
             <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full overflow-hidden flex justify-center items-center">
@@ -41,6 +43,28 @@ const HomeHero = () => {
             </div>
             <Share/>
           </div>
+        </div>
+        <div className="absolute -top-[calc(100%+45px)] right-5 bg-[#11161b] p-3 rounded-xl w-[25%]">
+          <div className="p-2 flex items-center justify-between">
+
+          <div className="flex items-center gap-4 text-white">
+            <Trophy className="w-8 h-8 bg-[#E45F3A] p-2 rounded-full"/>
+          <span className="font-bold text-2xl">Top 10</span>
+          </div>
+          <select name="toptime" className="bg-[#E45F3A] p-2 text-white font-semibold rounded-lg">
+            <option value="now">NOW</option>
+            <option value="day">DAY</option>
+            <option value="week">WEEK</option>
+            <option value="month">MONTH</option>
+          </select>
+          </div>
+          <ul className="text-white space-y-2">
+            {
+              [1,2,3,4,5,6,7,8,9,10].map((num)=>{
+                return <Tops num={num} key={num}/>
+          }) 
+            }
+          </ul>
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { SquareArrowUpRight,Mic2Icon } from "lucide-react"
+import { SquareArrowUpRight,Mic2Icon, Trophy } from "lucide-react"
 import HomeHero from "../components/HomeHero"
 import Updates from "../components/Updates"
 

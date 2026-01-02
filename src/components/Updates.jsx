@@ -1,4 +1,5 @@
 import { Mic2Icon, SquareArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Updates = () => {
   return (
@@ -12,7 +13,8 @@ const Updates = () => {
         <ul className="rounded-xl overflow-hidden text-white bg-[#11161b]">
           {[1,2,3,4,5,6].map((k)=>{
 
-              return <li key={k} className="p-3 py-4 flex gap-3 hover:bg-[#1B2027]">
+              return <li key={k} >
+                <Link to={"/"} className='p-3 py-4 flex gap-3 hover:bg-[#1B2027]'>
             <div className="w-16 h-16 rounded-full overflow-hidden flex justify-center items-center">
               <img src="/images/sharing.gif" alt="sharing" className="w-16 h-16"/>
             </div>
@@ -27,6 +29,7 @@ const Updates = () => {
               <span className="text-sm text-gray-300">TV</span>
               </div>
             </div>
+                </Link>
           </li>
         })
           }
