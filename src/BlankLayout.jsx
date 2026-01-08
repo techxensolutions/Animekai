@@ -6,7 +6,7 @@ function BlankLayout() {
 
   return (
     <>
-    <main className='max-w-screen overflow-hidden'>
+    <main className='max-w-screen overflow-x-hidden'>
     <Outlet/>
     </main>
     <Footer/>

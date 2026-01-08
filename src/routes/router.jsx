@@ -3,6 +3,7 @@ import App from "../App";
 import LandingPage from "../pages/LandingPage";
 import BlankLayout from "../BlankLayout";
 import Home from "../pages/Home";
+import FiltersPage from "../pages/FiltersPage";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
         path: "/home",
         element: <Home />,
       },
+      {
+        path:"/filter",
+        element:<FiltersPage/>
+      }
     ],
   },
   {
@@ -21,7 +26,7 @@ const router = createBrowserRouter([
       {
         path:"",
         element:<LandingPage/>
-      }
+      },
     ]
   }
 ]);

@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <HomeHero/>
-      <div className="mt-24 ml-10 w-[70%]">
+      <div className="mt-24 ml-10 w-[70%] mb-7">
         <h2 className="font-bold text-2xl text-white">LATEST UPDATES</h2>
         <div className="w-full flex justify-between">
 

@@ -6,7 +6,7 @@ const Footer = () => {
     const alphabets=["All","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
   return (
     <>
-      <footer className='bg-black mt-6'>
+      <footer className='bg-black'>
         <div className='flex p-8 items-center pb-0'>
             <span className='font-semibold text-3xl mr-3 text-white'>A-Z List</span>
             <span className='text-[#43484d]'>Searching anime order by alphabet name A to Z.</span>

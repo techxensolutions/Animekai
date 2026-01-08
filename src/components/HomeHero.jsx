@@ -28,7 +28,7 @@ const HomeHero = () => {
       </div>
       <HeroItemDetails currentIndex={currentIndex} currentItem={currentItem} />
       </section>
-      <div className="relative z-100 w-full">
+      <div className="relative z-1 w-full">
 
       <div className="absolute -bottom-18 left-5 bg-[#11161b] p-3 rounded-xl w-[70%]">
           <div className="flex w-full justify-between">
@@ -44,7 +44,7 @@ const HomeHero = () => {
             <Share/>
           </div>
         </div>
-        <div className="absolute -top-[calc(100%+45px)] right-5 bg-[#11161b] p-3 rounded-xl w-[25%]">
+        <div className="absolute -top-[calc(100%+45px)] right-5 bg-[#11161b] p-3 rounded-xl w-[25%] tops">
           <div className="p-2 flex items-center justify-between">
 
           <div className="flex items-center gap-4 text-white">
