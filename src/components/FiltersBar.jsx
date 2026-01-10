@@ -12,7 +12,7 @@ const FiltersBar = () => {
       <div className='mx-9 text-white' style={{position:"relative",zIndex:10}}>
         <div>
             <h1 className='font-bold text-2xl'>Browse</h1>
-            <div className='flex justify-between gap-3 text-sm'>
+            <div className='flex justify-between flex-wrap gap-3 text-sm'>
                 <input type="text" className='bg-[#0c1116] rounded-md p-2 flex-1' placeholder='Search...'/>
                 {["Type","Genre","Status","Total Episodes"].map((item)=>{
                     return <div onClick={()=>toggleFilter(item)} key={item} className='bg-[#0c1116] text-gray-300 rounded-md p-2 text-sm relative flex justify-between items-center flex-1'>

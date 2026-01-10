@@ -30,7 +30,7 @@ const HomeHero = () => {
       </section>
       <div className="relative z-1 w-full">
 
-      <div className="absolute -bottom-18 left-5 bg-[#11161b] p-3 rounded-xl w-[70%]">
+      <div className="hidden md:block absolute -bottom-18 left-5 bg-[#11161b] p-3 rounded-xl md:w-[70%]">
           <div className="flex w-full justify-between">
             <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full overflow-hidden flex justify-center items-center">
@@ -44,7 +44,7 @@ const HomeHero = () => {
             <Share/>
           </div>
         </div>
-        <div className="absolute -top-[calc(100%+45px)] right-5 bg-[#11161b] p-3 rounded-xl w-[25%] tops">
+        <div className="hidden md:block absolute -top-[calc(100%+45px)] right-5 bg-[#11161b] p-3 rounded-xl w-[25%] tops">
           <div className="p-2 flex items-center justify-between">
 
           <div className="flex items-center gap-4 text-white">
