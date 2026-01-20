@@ -1,5 +1,5 @@
 import { ChevronDown, Filter, Menu, Search, Shuffle, User2, Users2, X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import LanguageToggle from './LanguageToggle'
 
@@ -7,11 +7,36 @@ const Header = () => {
     const [showDropdown,setShowDropdown] = useState(false);
     const [showGenres,setShowGenres] = useState(false);
     const [showTypes,setShowTypes] = useState(false);
+  const [visible, setVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
     const genres = ["Action","Adventure","Cars","Comedy","Dementia","Demons","Drama","Ecchi","Fantasy","Game","Herem","Hintai","Historical","Horror","Josei","Kids","Magic","Martial Arts","Mecha","Military"]
     const types = ["TV","Movie","OVA","ONA","Special"]
+
+    useEffect(() => {
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY
+if (currentScrollY < 50) {
+  setVisible(true)
+  return
+}
+
+    if (currentScrollY > lastScrollY) {
+      setVisible(false)
+    } else {
+      setVisible(true)
+    }
+
+    setLastScrollY(currentScrollY)
+  }
+
+  window.addEventListener("scroll", handleScroll)
+
+  return () => window.removeEventListener("scroll", handleScroll)
+}, [lastScrollY])
+
   return (
     <>
-    <header className='bg-[#0C1116] box-border flex justify-between m-4 mx-6 rounded-2xl p-3 fixed z-2 top-0 right-0 left-0'>
+    <header className={`bg-[#0C1116] box-border flex justify-between m-4 mx-6 rounded-2xl p-3 fixed z-2 top-0 right-0 left-0 transition-all delay-100 duration-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"}`}>
         <div className='flex gap-3 items-center relative'>
       <Menu onClick={()=>setShowDropdown(prev=>!prev)} className='text-white cursor-pointer'/>
         <Link to={"/"}>
