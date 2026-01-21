@@ -4,6 +4,7 @@ import LandingPage from "../pages/LandingPage";
 import BlankLayout from "../BlankLayout";
 import Home from "../pages/Home";
 import FiltersPage from "../pages/FiltersPage";
+import WatchMovie from "../pages/WatchMovie";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path:"/filter",
         element:<FiltersPage/>
+      },
+      {
+        path:"/watch/:name",
+        element:<WatchMovie/>
       }
     ],
   },

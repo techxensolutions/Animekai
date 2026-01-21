@@ -5,7 +5,7 @@ const Tops = ({num}) => {
   return (
     <>
       <li>
-              <Link to={'/'} className="flex w-full p-4 py-7 gap-3 items-center bg-[url('/images/top.jpg')] relative bg-position-[100%] bg-no-repeat bg-size-[40%] overflow-hidden transition-all toplink">
+              <Link to={'/'} className="rounded-lg flex w-full p-4 py-7 gap-3 items-center bg-[url('/images/top.jpg')] relative bg-position-[100%] bg-no-repeat bg-size-[40%] overflow-hidden transition-all toplink">
               <div className="h-8 w-8 border border-gray-400 rounded-full flex justify-center items-center">{num}</div>
               <div className="flex flex-col">
                 <span className="text-lg">
