@@ -1,20 +1,21 @@
 import { SquareArrowUpRight } from 'lucide-react'
 import UpdateItem from './UpdateItem'
 
-const Updates = () => {
+const Updates = ({animes,title}) => {
+  console.log('UpdatedAnimes:', animes)
   return (
     <>
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 md:flex-1'>
 
      <div className="flex justify-between mt-10">
-        <h2 className="font-bold text-2xl text-white">New Releases</h2>
+        <h2 className="font-bold text-2xl text-white">{title}</h2>
         <SquareArrowUpRight fill="white" className="text-black rounded-xl w-8 h-8"/>
         </div>
         <ul className="rounded-xl overflow-hidden text-white bg-[#11161b]">
-          {[1,2,3,4,5,6].map((k)=>{
+          {animes.map((anime)=>{
 
-              return <li key={k} >
-                <UpdateItem/>
+              return <li key={anime._id} >
+                <UpdateItem anime={anime}/>
           </li>
         })
           }

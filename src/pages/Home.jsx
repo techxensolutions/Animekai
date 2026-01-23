@@ -4,11 +4,82 @@ import Updates from "../components/Updates"
 import FilterCard from "../components/FilterCard"
 import Tops from "../components/Tops"
 import Share from "../components/Share"
+import { useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import axios from "axios"
+
+const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 
 const Home = () => {
+  const {animes,loading} = useSelector(state=>state.animes);
+  const [page,setPage] = useState(1);
+  const [upcomings,setUpcomings] = useState([]);
+  const [completed,setCompleted] = useState([]);
+  const [latest,setLatest] = useState([]);
+  const [updates,setUpdates] = useState([]);
+  useEffect(()=>{
+    const fetchLatest=async ()=>{
+      try {
+      const response = await axios.get(`${BASE_URI}/api/latest/episode?page=${page}&limit=20`);
+      let upd_animes=response.data.episodes
+      console.log('updates', upd_animes)
+      setUpdates(upd_animes);
+    } catch (error) {
+        console.log('Error in Latest: ', error)
+    }
+    }
+    fetchLatest();
+  },[page])
+  useEffect(()=>{
+    const fetchLatest=async ()=>{
+      try {
+      const response = await axios.get(`${BASE_URI}/api/latest/anime`);
+      let lat_animes=response.data.animes
+      console.log('latest', lat_animes)
+      setLatest(lat_animes);
+    } catch (error) {
+        console.log('Error in Latest: ', error)
+    }
+    }
+    fetchLatest();
+  },[])
+  useEffect(()=>{
+    const fetchUpcomings=async ()=>{
+      try {
+      const response = await axios.get(`${BASE_URI}/api/animelist?status=Currently+Airing&limit=6`);
+      console.log('Upcomings', response.data.animes)
+      let up_animes=response.data.animes
+      setUpcomings(up_animes);
+    } catch (error) {
+        console.log('Error: ', error)
+    }
+    }
+    fetchUpcomings();
+  },[])
+  useEffect(()=>{
+    const fetchCompleted=async ()=>{
+      try {
+      const response = await axios.get(`${BASE_URI}/api/animelist?status=Finished+Airing&limit=6`);
+      console.log('Upcomings', response.data.animes)
+      let com_animes=response.data.animes
+      setCompleted(com_animes);
+    } catch (error) {
+        console.log('Error: ', error)
+      return thunkAPI.rejectWithValue(error.response?.data.error || error.message);
+    }
+    }
+    fetchCompleted();
+  },[])
   return (
-    <>
-      <HomeHero/>
+    loading ? (
+      <div className="h-screen flex justify-center items-center">
+      <div className="text-white font-black text-3xl my-16 text-center">Loading...</div>
+      </div>
+    ):
+    (
+
+      <>
+      <HomeHero latest={latest}/>
       <div className="mt-10 md:mt-24 md:ml-10 md:w-[70%] mb-7 mx-5">
         <div className="md:hidden mb-5 bg-[#11161b] p-3 rounded-xl">
           <div className="flex w-full justify-between">
@@ -37,16 +108,16 @@ const Home = () => {
         </div>
         <div className="mt-8 w-full grid gap-3 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {
-          Array.from({ length: 16 }).map((_,ind)=>{
-              return <FilterCard url={"/images/filterimage.jpg"} key={ind} />
+          updates.map((episode,ind)=>{
+              return <FilterCard anime={episode.anime_info} key={episode.anime_id} />
             })
         }
         </div>
         <div className="w-full flex flex-wrap justify-center gap-3 md:justify-between">
 
-        <Updates/>
-        <Updates/>
-        <Updates/>
+        <Updates animes={upcomings} title={"New Release"} />
+        <Updates animes={upcomings} title={"Upcoming"} />
+        <Updates animes={completed} title={"Completed"} />
         </div>
         <div className="md:hidden w-full mt-5">
 
@@ -63,16 +134,17 @@ const Home = () => {
             <option value="month">MONTH</option>
           </select>
           </div>
-          <ul className="text-white space-y-2">
+            <ul className="text-white space-y-2">
             {
-              [1,2,3,4,5,6,7,8,9,10].map((num)=>{
-                return <Tops num={num} key={num}/>
-          }) 
+              latest.map((anime,ind)=>{
+                return <Tops anime={anime} num={ind+1} key={anime._id}/>
+              }) 
             }
           </ul>
         </div>
       </div>
     </>
+    )
   )
 }
 

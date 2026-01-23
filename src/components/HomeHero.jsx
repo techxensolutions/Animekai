@@ -1,23 +1,41 @@
-import heroitems from "../data/heroitems.json"
 import { useEffect, useState } from 'react'
 import HeroItemDetails from './HeroItemDetails';
 import Tops from './Tops';
 import Share from "./Share";
 import { Mic2Icon, Trophy } from "lucide-react";
-const HomeHero = () => {
+import axios from "axios";
+
+const BASE_URI = import.meta.env.VITE_BACKEND_URI;
+
+
+const HomeHero = ({latest}) => {
   const [currentIndex,setCurrentIndex] = useState(0);
+  const [featured,setFeatured] = useState([]);
+  useEffect(()=>{
+    const fetchFeatured=async ()=>{
+      try {
+      const response = await axios.get(`${BASE_URI}/api/admin/featured`);
+      console.log('featured', response.data)
+      let feat_animes=response.data;
+      setFeatured(feat_animes);
+    } catch (error) {
+        console.log('Error in Latest: ', error)
+    }
+    }
+    fetchFeatured();
+  },[])
   useEffect(()=>{
     const interval=setInterval(() => {
-      setCurrentIndex((prev)=>(prev+1)%heroitems.length);
+      setCurrentIndex((prev)=>(prev+1)%featured.length);
     }, 3000);
     return ()=>clearInterval(interval);
-  },[]);
-  const currentItem=heroitems[currentIndex];
+  },[featured]);
+  const currentItem=featured[currentIndex]?.anime;
   return (
     <>
-      <section key={currentIndex} className={`min-h-[calc(100vh+60px)] bg-cover bg-center relative flex items-center max-md:justify-center box-border transition-all duration-75 ease-in-out animate-fade overflow-x-hidden`} style={{ backgroundImage: `url(${currentItem.image})` }}>
+      <section key={currentIndex} className={`min-h-[calc(100vh+60px)] bg-cover bg-no-repeat bg-center relative flex items-center max-md:justify-center box-border transition-all duration-75 ease-in-out animate-fade overflow-x-hidden`} style={{ backgroundImage: `url(${currentItem?.image})` }}>
       <div className='herogradient inset-0 h-full w-full absolute'/>
-      <div className='text-white text-xl absolute z-10 bottom-5 right-9 flex gap-4 items-center'>
+      <div className='text-white text-xl absolute z-10 bottom-16 right-9 flex gap-4 items-center'>
         <button>&lt;</button>
         <div className='space-x-3'>
         <span className='text-3xl'>{currentIndex+1}</span>
@@ -26,7 +44,7 @@ const HomeHero = () => {
         </div>
         <button>&gt;</button>
       </div>
-      <HeroItemDetails currentIndex={currentIndex} currentItem={currentItem} />
+      {currentItem && <HeroItemDetails currentIndex={currentIndex} currentItem={currentItem} />}
       </section>
       <div className="relative z-1 w-full">
 
@@ -60,9 +78,9 @@ const HomeHero = () => {
           </div>
           <ul className="text-white space-y-2">
             {
-              [1,2,3,4,5,6,7,8,9,10].map((num)=>{
-                return <Tops num={num} key={num}/>
-          }) 
+              latest.map((anime,ind)=>{
+                return <Tops anime={anime} num={ind+1} key={anime._id}/>
+              }) 
             }
           </ul>
         </div>

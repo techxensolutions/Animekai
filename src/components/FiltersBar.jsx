@@ -1,7 +1,12 @@
 import { ChevronDown, Leaf } from 'lucide-react'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import data from "../data/filters.json"
+import FiltersContext from '../context/FiltersContext';
+import { useDispatch } from 'react-redux';
+import { fetchAnimesByFilters } from '../store/animeSlice';
 const FiltersBar = () => {
+  const dispatch = useDispatch();
+    const {filters,setFilters} = useContext(FiltersContext)
     const [openFilter, setOpenFilter] = useState(null);
 
   const toggleFilter = (item) => {
@@ -32,6 +37,7 @@ const FiltersBar = () => {
                 }) 
                 }
                 <button
+                onClick={()=>dispatch(fetchAnimesByFilters(filters))}
             className="bg-[#E45F3A] hover:bg-[#fd7e14] text-white font-bold py-2 rounded-lg text-center flex items-center justify-center gap-1 flex-1"
           >
             <Leaf className='w-4 h-4'/>

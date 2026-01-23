@@ -4,9 +4,16 @@ import './index.css'
 import App from './App.jsx'
 import { RouterProvider } from 'react-router-dom'
 import router from './routes/router.jsx'
+import { Provider } from 'react-redux'
+import store from './store/store.js'
+import { FiltersProvider } from './context/FiltersContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Provider store={store}>
+      <FiltersProvider>
     <RouterProvider router={router} />
+      </FiltersProvider>
+    </Provider>
   </StrictMode>,
 )
