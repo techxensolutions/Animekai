@@ -1,7 +1,7 @@
 [
     {
         "name":"type",
-        "values":["TV","Movies","ONA","OVA"]
+        "values":["TV","Movie","ONA","OVA","Special"]
     },
     {
 

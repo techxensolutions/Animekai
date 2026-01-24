@@ -19,7 +19,6 @@ const FilterCard = ({anime}) => {
   setInfoSide(overflowRight ? "left" : "right")
   setShowInfo(true)
 }
-
   return (
     <>
         <Link to={`/watch/${"Watch Movie".replaceAll(" ","-").toLowerCase()}`} ref={cardRef} className="relative hover:cursor-pointer" onMouseEnter={()=>setShowInfoIcon(true)} onMouseLeave={()=>setShowInfoIcon(false)}>
@@ -45,14 +44,14 @@ const FilterCard = ({anime}) => {
     ${infoSide === "right"
       ? "left-[calc(100%+2px)]"
       : "right-[calc(100%+2px)]"}
-  `} onMouseEnter={()=>setShowInfo(true)} onMouseLeave={()=>setShowInfo(false)}>
+  `} onClick={(e)=>{e.stopPropagation(); e.preventDefault();}} onMouseEnter={()=>setShowInfo(true)} onMouseLeave={()=>setShowInfo(false)}>
           <h1 className="font-bold text-white">{anime.title}</h1>
           <p className="text-sm text-gray-400">3-nen Z-gumi Ginpachi-sensei</p>
           <div className="my-2 bg-black/50 rounded-full">
             <span className="bg-[#b83c19] ml-1 px-1 text-sm font-semibold rounded-full text-white">PG-13</span>
           </div>
           <p className="text-sm text-gray-400">
-            {anime.synopsis.slice(0,110)+"..." || "Synopsis"}
+            {anime?.synopsis ? anime.synopsis.slice(0, 110) + "..." : "Synopsis"}
           </p>
           <div className="text-sm my-3 text-white">
             <p>

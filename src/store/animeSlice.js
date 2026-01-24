@@ -17,7 +17,7 @@ export const fetchAnimes = createAsyncThunk(
 export const fetchAnimesByFilters = createAsyncThunk(
   "animes/fetchAnimesByFilters",
   async ({filters},thunkAPI) => {
-    console.log('Filters are: ', filters )
+    console.log('Applied Filters', filters)
     try {
       const response = await axios.post(`${BASE_URI}/api/filter`,filters);
       console.log('Filtered: ', response.data )

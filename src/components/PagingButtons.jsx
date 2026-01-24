@@ -5,14 +5,14 @@ import { useContext, useEffect, useState } from "react";
 import FiltersContext from "../context/FiltersContext";
 const PagingButtons = () => {
   const { filteredResultsPages } = useSelector(state => state.animes);
-  const { filters, setFilters } = useContext(FiltersContext);
+  const { appliedFilters, setAppliedFilters } = useContext(FiltersContext);
+  const currentPage = appliedFilters.page;
   const dispatch = useDispatch();
-  const currentPage = filters.page;
 
   const pages = [
-    currentPage > 1 ? currentPage - 1 : currentPage,
-    currentPage,
-    currentPage < filteredResultsPages ? currentPage + 1 : currentPage,
+    currentPage !== 1 ? currentPage - 1 : currentPage,
+    currentPage !== 1 ? currentPage: currentPage+1,
+    currentPage === 1 ? currentPage + 2 : currentPage+1 
   ];
 
   const pageBtnClass = (page) =>
@@ -21,28 +21,32 @@ const PagingButtons = () => {
        ? "bg-[#e45f3a] text-white"
        : "bg-[#ffffff14] text-gray-400 hover:text-[#e45f3a]"}`;
 
-useEffect(() => {
-  dispatch(fetchAnimesByFilters({filters}));
-}, [filters]);
+// useEffect(() => {
+//   console.log('From paging')
+//   dispatch(fetchAnimesByFilters({filters:appliedFilters}));
+// }, [appliedFilters.page,dispatch]);
 
   const handlePrevClick = () => {
     if (currentPage > 1) {
-      setFilters(prev => ({ ...prev, page: currentPage - 1 }));
+      setAppliedFilters(prev => ({ ...prev, page: currentPage - 1 }));
+      dispatch(fetchAnimesByFilters({filters:appliedFilters}));
     }
   };
 
   const handleNextClick = () => {
     if (currentPage < filteredResultsPages) {
-      setFilters(prev => ({ ...prev, page: currentPage + 1 }));
+      setAppliedFilters(prev => ({ ...prev, page: currentPage + 1 }));
+      dispatch(fetchAnimesByFilters({filters:appliedFilters}));
     }
   };
 
   const handleClick = (page) => {
-    setFilters(prev => ({ ...prev, page }));
+    setAppliedFilters(prev => ({ ...prev, page }));
+    dispatch(fetchAnimesByFilters({filters:appliedFilters}));
   };
 
   return (
-    <div className="flex my-8 justify-center relative z-10">
+    <div className="flex my-8 justify-center relative z-9">
       <div className="flex gap-3">
 
         <button onClick={handlePrevClick} disabled={currentPage === 1} className="bg-[#ffffff14] h-10 px-4 rounded-xl text-gray-400 hover:text-[#e45f3a] disabled:opacity-40"
