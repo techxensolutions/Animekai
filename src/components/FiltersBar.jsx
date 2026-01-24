@@ -13,9 +13,15 @@ const { draftFilters, setDraftFilters, setAppliedFilters } = useContext(FiltersC
     setOpenFilter(openFilter === item ? null : item);
   };
 const handleChange = (e) => {
-  const { name, value, checked } = e.target;
+  const { type } = e.target;
+  if (type==="text"){
+    const { name, value } = e.target;
+    setDraftFilters(prev=>({...prev,[name]:value}));
+  }else {
 
-  setDraftFilters((prev) => {
+    const { name, value, checked } = e.target;
+    
+    setDraftFilters((prev) => {
     if (name === "status" || name === "type" || name === "genre") {
       if (checked) {
         return {
@@ -43,9 +49,10 @@ const handleChange = (e) => {
       page: 1,
     };
   });
+}
 };
 
-  return (
+return (
     <>
       <div
         className="mx-9 text-white"
@@ -57,7 +64,9 @@ const handleChange = (e) => {
             <input
               type="text"
               className="bg-[#0c1116] rounded-md p-2 flex-1"
+              name="search"
               placeholder="Search..."
+              onChange={handleChange}
             />
             {["Type", "Genre", "Status", "Total Episodes"].map((item) => {
               return (
