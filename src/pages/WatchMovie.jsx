@@ -6,7 +6,6 @@ import FilterCard from '../components/FilterCard'
 import Tops from '../components/Tops'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
-import VideoPlayer from "../components/VideoPlayer"
 
 const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 
@@ -75,7 +74,7 @@ const WatchMovie = () => {
           <div className='rounded-t-2xl bg-[#0C1116] inset-0 p-3'> 
             <Breadcrums anime={anime}/>
           </div>
-          <VideoPlayer src={episode?.link?.sub[0] || "/sample.mp4"}/>
+          <iframe class="w-full h-122 overflow-hidden inset-0" src={episode?.link?.sub[0] || "/sample.mp4"} width={"100%"} height={"100%"} frameborder={"0"} allowFullScreen></iframe>
           <div className='rounded-b-2xl bg-[#0C1116] inset-0 p-4'> 
             <div className='flex justify-between'>
               <span className='font-bold text-white'>You are watching Episode {episode?.episodeNumber}</span>
