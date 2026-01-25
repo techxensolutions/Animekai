@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         element:<FiltersPage/>
       },
       {
-        path:"/watch/:name",
+        path:"/watch/:slug",
         element:<WatchMovie/>
       }
     ],

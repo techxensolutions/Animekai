@@ -18,7 +18,7 @@ const Home = () => {
   const [latest,setLatest] = useState([]);
   const [updates,setUpdates] = useState([]);
   useEffect(()=>{
-    const fetchLatest=async ()=>{
+    const fetchUpdates=async ()=>{
       try {
       const response = await axios.get(`${BASE_URI}/api/latest/episode?page=${page}&limit=20`);
       let upd_animes=response.data.episodes
@@ -28,7 +28,7 @@ const Home = () => {
         console.log('Error in Latest: ', error)
     }
     }
-    fetchLatest();
+    fetchUpdates();
   },[page])
   useEffect(()=>{
     const fetchLatest=async ()=>{
@@ -121,26 +121,7 @@ const Home = () => {
         </div>
         <div className="md:hidden w-full mt-5">
 
-        <div className="p-2 flex items-center justify-between">
-
-          <div className="flex items-center gap-4 text-white">
-            <Trophy className="w-8 h-8 bg-[#E45F3A] p-2 rounded-full"/>
-          <span className="font-bold text-2xl">Top 10</span>
-          </div>
-          <select name="toptime" className="bg-[#E45F3A] p-2 text-white font-semibold rounded-lg">
-            <option value="now">NOW</option>
-            <option value="day">DAY</option>
-            <option value="week">WEEK</option>
-            <option value="month">MONTH</option>
-          </select>
-          </div>
-            <ul className="text-white space-y-2">
-            {
-              latest.map((anime,ind)=>{
-                return <Tops anime={anime} num={ind+1} key={anime._id}/>
-              }) 
-            }
-          </ul>
+<Tops latest={latest}/>
         </div>
       </div>
     </>

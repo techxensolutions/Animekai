@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Breadcrums = () => {
+const Breadcrums = ({anime}) => {
   return (
     <>
     <div className='text-white space-x-3 text-sm'>
@@ -8,7 +8,7 @@ const Breadcrums = () => {
      <span>/</span>
      <span>TV</span>
      <span>/</span>
-     <span className='text-gray-400'>Name</span> 
+     <span className='text-gray-400'>{anime?.title}</span> 
     </div>
     </>
   )

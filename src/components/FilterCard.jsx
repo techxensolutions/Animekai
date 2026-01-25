@@ -21,7 +21,7 @@ const FilterCard = ({anime}) => {
 }
   return (
     <>
-        <Link to={`/watch/${"Watch Movie".replaceAll(" ","-").toLowerCase()}`} ref={cardRef} className="relative hover:cursor-pointer" onMouseEnter={()=>setShowInfoIcon(true)} onMouseLeave={()=>setShowInfoIcon(false)}>
+        <Link to={`/watch/${anime.episodes[0].slugs[0]}`} ref={cardRef} className="relative hover:cursor-pointer" onMouseEnter={()=>setShowInfoIcon(true)} onMouseLeave={()=>setShowInfoIcon(false)}>
           {
             showInfoIcon && <span className={`rounded-full bg-[#b83c19] text-white absolute z-10 right-2 top-2`} onMouseEnter={handleInfoEnter} onMouseLeave={()=>setShowInfo(false)}><Info className="h-8 w-8"/></span>
           }
@@ -71,12 +71,12 @@ const FilterCard = ({anime}) => {
             </span>
             </p>
           </div>
-          <button onMouseEnter={()=>setTranslatePlay(true)} onMouseLeave={()=>setTranslatePlay(false)} className="bg-gray-900 rounded-full p-3 text-lg font-bold flex justify-between w-full items-center">
+          <Link to={`/watch/${anime.episodes[0].slugs[0]}`} onMouseEnter={()=>setTranslatePlay(true)} onMouseLeave={()=>setTranslatePlay(false)} className="bg-gray-900 rounded-full p-3 text-lg font-bold flex justify-between w-full items-center">
             <span className="text-white">
               WATCH NOW
             </span>
             <Play className={`h-5 w-5 ${translatePlay ? "-translate-x-4 text-green-600" : "translate-0 text-white"} transition-all duration-200 delay-100`} fill={`${translatePlay ? "green" : "white"}`}/>
-          </button>
+          </Link>
         </div>
         </Link>
     </>

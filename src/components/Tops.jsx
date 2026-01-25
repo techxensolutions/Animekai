@@ -1,12 +1,28 @@
-import { Mic2Icon } from "lucide-react"
+import { Mic2Icon, Trophy } from "lucide-react"
 import { Link } from "react-router-dom"
 
-const Tops = ({anime,num}) => {
+const Tops = ({latest}) => {
   return (
     <>
-      <li>
+    <div className="p-2 flex items-center justify-between">
+    <div className="flex items-center gap-4 text-white">
+            <Trophy className="w-8 h-8 bg-[#E45F3A] p-2 rounded-full"/>
+          <span className="font-bold text-2xl">Top 10</span>
+          </div>
+          <select name="toptime" className="bg-[#E45F3A] p-2 text-white font-semibold rounded-lg">
+            <option value="now">NOW</option>
+            <option value="day">DAY</option>
+            <option value="week">WEEK</option>
+            <option value="month">MONTH</option>
+          </select>
+          </div>
+            <ul className="text-white space-y-2">
+            {
+              latest ?
+              latest.map((anime,ind)=>{
+                return <li key={anime._id}>
               <Link to={'/'} className="rounded-lg flex w-full p-4 py-7 gap-3 items-center relative bg-position-[100%] bg-no-repeat bg-size-[40%] overflow-hidden transition-all toplink" style={{backgroundImage:`url('${anime?.image || "/images/filterimage.jpg"}')`}}>
-              <div className="h-8 w-8 border border-gray-400 rounded-full flex justify-center items-center">{num}</div>
+              <div className="h-8 w-8 border border-gray-400 rounded-full flex justify-center items-center">{ind+1}</div>
               <div className="flex flex-col">
                 <span className="text-lg">
                   {anime?.title.slice(0,25)+"..." || "Title"}
@@ -18,6 +34,10 @@ const Tops = ({anime,num}) => {
               </div>
               </Link>
             </li>
+              })  : <div className="text-white font-black text-3xl my-16 text-center">Loading...</div>
+            }
+          </ul>
+      
     </>
   )
 }
