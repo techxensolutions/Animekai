@@ -3,12 +3,23 @@ import FilterCard from "../components/FilterCard"
 import { useDispatch, useSelector } from "react-redux"
 import { useContext, useEffect } from "react";
 import { fetchAnimesByFilters } from "../store/animeSlice";
-import FiltersContext from "../context/FiltersContext";
+import FiltersContext, { initialFilters } from "../context/FiltersContext";
 import PagingButtons from "../components/PagingButtons";
+import { useParams, useSearchParams } from "react-router-dom";
 const FiltersPage = () => {
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type");
+  const status = searchParams.get("status");
   const { draftFilters, setDraftFilters, setAppliedFilters } = useContext(FiltersContext);
   const {filteredAnimes,loading} = useSelector(state=>state.animes);
   const dispatch = useDispatch();
+  useEffect(()=>{
+    const name_array=[];
+    const new_filters={...initialFilters,[type ? "type" : "status"]:[...name_array,type ? type : status==="new_releases" ? "Not yet aired" : "Currently Airing"]};
+    setDraftFilters(new_filters);
+    console.log('Drafts in Landing page', new_filters)
+    dispatch(fetchAnimesByFilters({filters:new_filters}))
+  },[])
 //   useEffect(() => {
 //   dispatch(fetchAnimesByFilters({filters:draftFilters}));
 // }, [draftFilters, dispatch]);
