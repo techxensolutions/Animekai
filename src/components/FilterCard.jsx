@@ -21,11 +21,13 @@ const FilterCard = ({anime}) => {
 }
   return (
     <>
-        <Link to={`/watch/${anime.episodes[0].slugs[0]}`} ref={cardRef} className="relative hover:cursor-pointer" onMouseEnter={()=>setShowInfoIcon(true)} onMouseLeave={()=>setShowInfoIcon(false)}>
+    <div ref={cardRef} className="relative hover:cursor-pointer" onMouseEnter={()=>setShowInfoIcon(true)} onMouseLeave={()=>setShowInfoIcon(false)}>
+
+        <Link to={`/watch/${anime.episodes[0].slugs[0]}`}>
           {
             showInfoIcon && <span className={`rounded-full bg-[#b83c19] text-white absolute z-10 right-2 top-2`} onMouseEnter={handleInfoEnter} onMouseLeave={()=>setShowInfo(false)}><Info className="h-8 w-8"/></span>
           }
-        <div className={`bg-cover bg-no-repeat bg-center rounded-xl overflow-hidden relative h-60`} style={{backgroundImage:`url('${anime?.image || "/images/filterimage.jpg"}')`}}>
+        <div className={`bg-cover bg-no-repeat bg-center rounded-xl overflow-hidden relative h-64`} style={{backgroundImage:`url('${anime?.image || "/images/filterimage.jpg"}')`}}>
 
         </div>
         <p className="font-bold text-[13px] text-white my-1">{anime?.title.slice(0,23)+"..." || "Title"}</p>
@@ -35,8 +37,9 @@ const FilterCard = ({anime}) => {
                  <span className='bg-[#e45f3a1e] text-[10px] p-px flex items-center text-[#E45F3A] border border-[#E45F3A] rounded-md'>CC {anime?.totalSubbed || 0}</span>
         <span className='bg-green-600/20 text-[10px] p-px text-green-600 border border-green-600 rounded-md flex items-center'><Mic2Icon className='h-4 w-4 mr-1'/><span>{anime?.totalDubbed || 0}</span></span>
               </div>
-              <span className="font-bold text-sm text-white">{anime.Type}</span>
+              <span className="font-bold text-xs text-white">{anime.Type}</span>
         </div>
+        </Link>
         <div className={`
     bg-[#b83c19] p-4 rounded-lg absolute top-0 w-72
     transition-all duration-300 cursor-default
@@ -46,14 +49,14 @@ const FilterCard = ({anime}) => {
       : "right-[calc(100%+2px)]"}
   `} onClick={(e)=>{e.stopPropagation(); e.preventDefault();}} onMouseEnter={()=>setShowInfo(true)} onMouseLeave={()=>setShowInfo(false)}>
           <h1 className="font-bold text-white">{anime.title}</h1>
-          <p className="text-sm text-gray-400">3-nen Z-gumi Ginpachi-sensei</p>
+          <p className="text-xs text-gray-400">{anime.Japanese}</p>
           <div className="my-2 bg-black/50 rounded-full">
-            <span className="bg-[#b83c19] ml-1 px-1 text-sm font-semibold rounded-full text-white">PG-13</span>
+            <span className="bg-[#b83c19] ml-1 px-1 text-xs rounded-full text-white">{anime.score.split(" ")[0]}</span>
           </div>
-          <p className="text-sm text-gray-400">
+          <p className="text-xs text-gray-400">
             {anime?.synopsis ? anime.synopsis.slice(0, 110) + "..." : "Synopsis"}
           </p>
-          <div className="text-sm my-3 text-white">
+          <div className="text-xs my-3 text-white">
             <p>
               <span className="text-gray-400">Aired:</span>
               <span>{anime.Aired}</span>
@@ -71,14 +74,14 @@ const FilterCard = ({anime}) => {
             </span>
             </p>
           </div>
-          <Link to={`/watch/${anime.episodes[0].slugs[0]}`} onMouseEnter={()=>setTranslatePlay(true)} onMouseLeave={()=>setTranslatePlay(false)} className="bg-gray-900 rounded-full p-3 text-lg font-bold flex justify-between w-full items-center">
+          <Link to={`/watch/${anime.episodes[0].slugs[0]}`} onMouseEnter={()=>setTranslatePlay(true)} onMouseLeave={()=>setTranslatePlay(false)} className="bg-gray-900 rounded-full p-2 font-bold flex justify-between w-full items-center">
             <span className="text-white">
               WATCH NOW
             </span>
             <Play className={`h-5 w-5 ${translatePlay ? "-translate-x-4 text-green-600" : "translate-0 text-white"} transition-all duration-200 delay-100`} fill={`${translatePlay ? "green" : "white"}`}/>
           </Link>
         </div>
-        </Link>
+    </div>
     </>
   )
 }

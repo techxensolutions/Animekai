@@ -7,7 +7,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative z-10 w-[50%] flex justify-center items-center flex-col gap-4">
           <img
-            src="./images/logo.png"
+            src="/images/logo.png"
             alt="logo"
             width={"200px"}
             height={"auto"}

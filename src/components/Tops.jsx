@@ -24,8 +24,8 @@ const Tops = ({latest}) => {
               <Link to={'/'} className="rounded-lg flex w-full p-4 py-7 gap-3 items-center relative bg-position-[100%] bg-no-repeat bg-size-[40%] overflow-hidden transition-all toplink" style={{backgroundImage:`url('${anime?.image || "/images/filterimage.jpg"}')`}}>
               <div className="h-8 w-8 border border-gray-400 rounded-full flex justify-center items-center">{ind+1}</div>
               <div className="flex flex-col">
-                <span className="text-lg">
-                  {anime?.title.slice(0,25)+"..." || "Title"}
+                <span>
+                  {anime?.title.length>25 ? anime?.title.slice(0,23)+"..." : anime?.title || "Title"}
                 </span>
                 <div className="flex gap-2">
                 <span className='bg-[#e45f3a1e] text-[10px] p-px text-[#E45F3A] border border-[#E45F3A] rounded-md'>CC {anime?.totalSubbed || 0}</span>

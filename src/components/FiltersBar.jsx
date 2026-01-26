@@ -82,10 +82,9 @@ return (
                   {openFilter === item && (
                     <div
                       onClick={(e) => e.stopPropagation()}
-                      className="absolute top-full mt-1 left-0 bg-[#1A1F27] border border-gray-600 rounded-lg p-2 z-101 pointer-events-auto w-full grid grid-cols-1 gap-1"
+                      className={`absolute top-full mt-1 left-0 bg-[#1A1F27] border border-gray-600 rounded-lg p-2 z-101 pointer-events-auto grid ${item==="Genre" ? "grid-cols-4 w-max": "grid-cols-1 w-full"} gap-1`}
                     >
-                      {data
-                        .find(
+                      {data.find(
                           (it) =>
                             it.name ===
                             openFilter.replaceAll(" ", "_").toLowerCase(),

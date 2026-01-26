@@ -35,7 +35,7 @@ const FiltersPage = () => {
 
       {
         filteredAnimes.map((anime)=>{
-          return <FilterCard anime={anime} key={anime._id} />
+          return <FilterCard anime={anime} key={anime.mal_id} />
         })
         }
         </div>
