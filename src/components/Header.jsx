@@ -1,19 +1,38 @@
-import { ChevronDown, Filter, Menu, Search, Shuffle, User2, Users2, X } from 'lucide-react'
+import { ArrowRight, ChevronDown, Filter, Menu, Search, Shuffle, User2, Users2, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import LanguageToggle from './LanguageToggle'
 import { useScrollVisibility } from '../hooks/useScrollVisibility'
 import { useDispatch } from 'react-redux'
 import { fetchAnimes } from '../store/animeSlice'
+import axios from 'axios'
+
+const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 
 const Header = () => {
   const dispatch = useDispatch();
     const [showDropdown,setShowDropdown] = useState(false);
     const [showGenres,setShowGenres] = useState(false);
     const [showTypes,setShowTypes] = useState(false);
+    const [results,setResults] = useState([]);
+    const [showResults, setShowResults] = useState(false);
+
     const visible=useScrollVisibility();
     const genres = ["Action","Adventure","Cars","Comedy","Dementia","Demons","Drama","Ecchi","Fantasy","Game","Herem","Hintai","Historical","Horror","Josei","Kids","Magic","Martial Arts","Mecha","Military"]
     const types = ["TV","Movie","OVA","ONA","Special"]
+
+  const fetchSearchResults=async (e)=>{
+      const {name,value} = e.target;
+      if (value.length<1) return;
+      try {
+      const response = await axios.post(`${BASE_URI}/api/search`,{[name]:value});
+      console.log('Search results: ', response.data)
+      let res_animes=response.data
+      setResults(res_animes);
+    } catch (error) {
+        console.log('Error: ', error)
+    }
+    }
 
     useEffect(()=>{
       dispatch(fetchAnimes())
@@ -72,17 +91,44 @@ const Header = () => {
       }
         </div>
         <div className='flex items-center gap-4'>
-            <div className="relative w-full">
+            <div className="relative max-w-72">
             <input
               type="text"
               className="w-full p-2 bg-[#181d22] text-white rounded-xl pl-9 pr-14 focus:outline-none"
               placeholder="Search anime"
+              name='title'
+              onChange={fetchSearchResults}
+              onFocus={() => setShowResults(true)}
+              onBlur={() => setTimeout(() => setShowResults(false), 150)}
             />
             <Search className="absolute text-white z-11 h-4 w-4 top-3 left-2" />
             <div className="absolute text-white top-3 right-2 flex items-center hover:text-[#fd7e14]">
               <Filter fill="white" className="w-4 h-4 " />
               <span className='text-sm'>Filter</span>
             </div>
+            {
+            showResults &&
+              <div className='w-full rounded-lg overflow-hidden bg-[#181d22] absolute top-[calc(100%+13px)]'>
+              <div className='space-y-1 m-1 max-h-60 overflow-y-auto searchresults'>
+
+              {
+                results.length>0 ?
+                (
+                  results.map((res)=>{
+
+                    return  <Link to={"/"} key={res.mal_id} className='flex text-white text-sm font-semibold gap-2'>
+                  <img src={res?.image} alt="" className='h-20 w-auto' />
+                  <div>
+                    <span>{res?.title?.slice(0,23)+"..."}</span>
+                  </div>
+              </Link>
+                  })
+                )
+                : <div className='text-gray-400 py-2 px-2'>No results found</div>
+              }
+              </div>
+              <Link to={"/filter?"} className='inset-0 w-full bg-[#E45F3A] text-white font-bold py-2 flex justify-center gap-2'>View More <ArrowRight className='w-6'/></Link>
+            </div>}
           </div>
           <div className='flex gap-4 max-[835px]:hidden'>
 

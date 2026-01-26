@@ -1,6 +1,23 @@
 import { Filter, Search} from "lucide-react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import FiltersContext from "../context/FiltersContext";
+import { useDispatch } from "react-redux";
+import { fetchAnimesByFilters } from "../store/animeSlice";
 const Hero = () => {
+  const { appliedFilters, setDraftFilters, setAppliedFilters } = useContext(FiltersContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAppliedFilters(prev=>({...prev,[name]:value,page:1}));
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/filter?")
+    dispatch(fetchAnimesByFilters({filters:appliedFilters}));
+  }
+
   return (
     <>
      <section className="relative flex justify-center items-center overflow-hidden h-screen bg-[url('/images/hero.jpg')] sm:rounded-4xl sm:mx-11 bg-size-120 bg-center bg-no-repeat">
@@ -12,24 +29,26 @@ const Hero = () => {
             width={"200px"}
             height={"auto"}
           />
-          <div className="relative w-full">
+          <form className="relative w-full" onSubmit={handleSubmit}>
             <input
               type="text"
               className="w-full p-2 bg-white rounded-full pl-9 pr-14 focus:outline-none"
               placeholder="Search"
+              name="search"
+              onChange={handleChange}
             />
             <Search className="absolute z-11 h-4 w-4 top-3 left-2" />
-            <div className="absolute top-2 right-2 flex items-center hover:text-[#fd7e14]">
+            <button type="submit" className="absolute top-2 right-2 flex items-center hover:text-[#fd7e14]">
               <Filter fill="black" className="w-4 h-4 " />
               <span>Filter</span>
-            </div>
-          </div>
+            </button>
+          </form>
           <div className="text-white">
             <p>My Hero Academia, One Piece, The Banished</p>
             <p>Court, Spy X Family Season, A Wild Last Boss</p>
           </div>
           <Link
-            to={"/watch"}
+            to={"/home"}
             className="bg-[#E45F3A] hover:bg-[#fd7e14] text-white text-xl py-2 px-8 rounded-lg text-center"
           >
             Watch Now

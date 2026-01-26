@@ -65,7 +65,6 @@ const Home = () => {
       setCompleted(com_animes);
     } catch (error) {
         console.log('Error: ', error)
-      return thunkAPI.rejectWithValue(error.response?.data.error || error.message);
     }
     }
     fetchCompleted();
@@ -73,7 +72,7 @@ const Home = () => {
   return (
     loading ? (
       <div className="h-screen flex justify-center items-center">
-      <div className="text-white font-black text-3xl my-16 text-center">Loading...</div>
+      <img src="/images/loading.svg" alt="" />
       </div>
     ):
     (
@@ -109,7 +108,7 @@ const Home = () => {
         <div className="mt-8 w-full grid gap-3 grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {
           updates.map((episode,ind)=>{
-              return <FilterCard anime={episode.anime_info} key={episode.anime_id} />
+              return <FilterCard anime={episode} key={episode.anime_id} />
             })
         }
         </div>

@@ -14,6 +14,7 @@ const FiltersPage = () => {
   const {filteredAnimes,loading} = useSelector(state=>state.animes);
   const dispatch = useDispatch();
   useEffect(()=>{
+    if (!type && !status) return;
     const name_array=[];
     const new_filters={...initialFilters,[type ? "type" : "status"]:[...name_array,type ? type : status==="new_releases" ? "Not yet aired" : "Currently Airing"]};
     setDraftFilters(new_filters);
@@ -30,7 +31,7 @@ const FiltersPage = () => {
       <FiltersBar/>
       { 
       loading ? 
-      <div className="text-white font-black text-3xl my-16 text-center">Loading...</div> :
+      <div className="my-20 flex justify-center" style={{position:"relative", zIndex:"10"}}><img src="/images/loading.svg" alt="" /></div> :
         <div className="m-10 mt-16 grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 text-white gap-5" style={{position:"relative",zIndex:9}}>
 
       {
