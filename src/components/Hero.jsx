@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <>
-     <section className="relative flex justify-center items-center overflow-hidden h-screen bg-[url('./images/hero.jpg')] sm:rounded-4xl sm:mx-11 bg-size-120 bg-center bg-no-repeat">
+     <section className="relative flex justify-center items-center overflow-hidden h-screen bg-[url('/images/hero.jpg')] sm:rounded-4xl sm:mx-11 bg-size-120 bg-center bg-no-repeat">
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="relative z-10 w-[50%] flex justify-center items-center flex-col gap-4">
           <img
