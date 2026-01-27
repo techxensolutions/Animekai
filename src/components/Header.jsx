@@ -1,16 +1,18 @@
 import { ArrowRight, ChevronDown, Filter, Menu, Search, Shuffle, User2, Users2, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import LanguageToggle from './LanguageToggle'
 import { useScrollVisibility } from '../hooks/useScrollVisibility'
 import { useDispatch } from 'react-redux'
 import { fetchAnimes } from '../store/animeSlice'
 import axios from 'axios'
+import FiltersContext from '../context/FiltersContext'
 
 const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 
 const Header = () => {
-  const dispatch = useDispatch();
+    const { appliedFilters, setDraftFilters, setAppliedFilters } = useContext(FiltersContext);
+    const dispatch = useDispatch();
     const [showDropdown,setShowDropdown] = useState(false);
     const [showGenres,setShowGenres] = useState(false);
     const [showTypes,setShowTypes] = useState(false);
@@ -23,7 +25,7 @@ const Header = () => {
 
   const fetchSearchResults=async (e)=>{
       const {name,value} = e.target;
-      if (value.length<1) return;
+      if (value==="") return;
       try {
       const response = await axios.post(`${BASE_URI}/api/search`,{[name]:value});
       console.log('Search results: ', response.data)
@@ -56,7 +58,7 @@ const Header = () => {
         {
           showGenres && genres.map((item)=>{
             
-            return <Link key={item} to={"/"} className='block w-1/2 hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
+            return <Link key={item} to={`/filter?genre=${item}`} className='block w-1/2 hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
         {item}
         </Link>
           })
@@ -70,21 +72,21 @@ const Header = () => {
         {
           showTypes && types.map((item)=>{
             
-            return <Link key={item} to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
+            return <Link key={item} to={`/filter?type=${item}`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
         {item}
         </Link>
           })
         }
-        <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link to={`/filter?status=new_releases`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         NEW RELEASES
         </Link>
-        <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link to={`/filter?status=updates`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         UPDATES
         </Link>
-        <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link to={`/filter?status=ongoing`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         ONGOING
         </Link>
-        <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link to={`/filter?`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         RECENT
         </Link>
       </div>
@@ -116,10 +118,14 @@ const Header = () => {
                 (
                   results.map((res)=>{
 
-                    return  <Link to={"/"} key={res.mal_id} className='flex text-white text-sm font-semibold gap-2'>
+                    return  <Link to={"/"} key={res?.title} className='flex text-white text-sm font-semibold gap-2'>
                   <img src={res?.image} alt="" className='h-20 w-auto' />
-                  <div>
-                    <span>{res?.title?.slice(0,23)+"..."}</span>
+                  <div className='font-bold text-gray-400 space-y-1'>
+                    <p className='text-white'>{res?.title?.slice(0,23)+"..."}</p>
+                    <p>{res?.Status}</p>
+                    <ul className='list-disc'>
+                      <li>{res?.Type}</li>
+                    </ul>
                   </div>
               </Link>
                   })
@@ -157,7 +163,7 @@ const Header = () => {
         {
           showGenres && genres.map((item)=>{
             
-            return <Link key={item} to={"/"} className='block hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
+            return <Link key={item} to={`/filter?genre=${item}`} className='block hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
         {item}
         </Link>
           })
@@ -171,21 +177,21 @@ const Header = () => {
         {
           showTypes && types.map((item)=>{
             
-            return <Link key={item} to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
+            return <Link key={item} to={`/filter?type=${item}`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
         {item}
         </Link>
           })
         }
-        <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link to={`/filter?status=new_releases`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         NEW RELEASES
         </Link>
-        <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link to={`/filter?status=updates`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         UPDATES
         </Link>
-        <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link to={`/filter?status=ongoing`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         ONGOING
         </Link>
-        <Link to={"/"} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link to={`/filter?`}className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         RECENT
         </Link>
         <div className='w-full flex gap-4 min-[835px]:hidden max-[835px]:justify-center max-[835px]:flex-wrap'>
