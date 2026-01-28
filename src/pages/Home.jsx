@@ -13,23 +13,26 @@ const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 const Home = () => {
   const {animes,loading} = useSelector(state=>state.animes);
   const [page,setPage] = useState(1);
+  const [totalPages,setTotalPages] = useState(0);
   const [upcomings,setUpcomings] = useState([]);
   const [completed,setCompleted] = useState([]);
   const [latest,setLatest] = useState([]);
   const [updates,setUpdates] = useState([]);
+  const [mode,setMode] = useState("all");
   useEffect(()=>{
     const fetchUpdates=async ()=>{
       try {
-      const response = await axios.get(`${BASE_URI}/api/latest/episode?page=${page}&limit=20`);
-      let upd_animes=response.data.episodes
-      console.log('updates', upd_animes)
+      const response = await axios.get(`${BASE_URI}/api/${mode==="all" ? "/latest/episode" : "/anime/dubbed"}?page=${page}&limit=20`);
+      let upd_animes=response.data?.episodes || response.data?.data
+      console.log('updates', response.data)
       setUpdates(upd_animes);
+      setTotalPages(response.data?.totalPages || response.data?.pagination?.totalPages)
     } catch (error) {
         console.log('Error in Latest: ', error)
     }
     }
     fetchUpdates();
-  },[page])
+  },[page, mode])
   useEffect(()=>{
     const fetchLatest=async ()=>{
       try {
@@ -97,11 +100,11 @@ const Home = () => {
         <div className="flex justify-between text-white">
         <h2 className="font-bold text-2xl ">LATEST UPDATES</h2>
         <div className="flex items-center space-x-3">
-          <button type="button" className="cursor-pointer hover:text-green-600">ALL</button>
-          <button type="button" className="cursor-pointer hover:text-green-600">DUBBED</button>
+          <button onClick={()=>{setMode("all"); setPage(1)}} type="button" className={`cursor-pointer hover:text-green-600 ${mode==="all" && "text-green-600"}`}>ALL</button>
+          <button onClick={()=>{setMode("dubbed"); setPage(1)}} type="button" className={`cursor-pointer hover:text-green-600 ${mode==="dubbed" && "text-green-600"}`}>DUBBED</button>
           <div className="flex gap-2">
-            <button className="w-6 h-6 flex justify-center items-center rounded-full overflow-hidden bg-white hover:bg-green-600 cursor-pointer"><ChevronLeft className="h-4 w-4 text-black"/></button>
-            <button className="w-6 h-6 flex justify-center items-center rounded-full overflow-hidden bg-white hover:bg-green-600 cursor-pointer"><ChevronRight className="h-4 w-4 text-black"/></button>
+            <button onClick={()=>setPage(prev=>prev>1 ? prev-1 : 1)} className="w-6 h-6 flex justify-center items-center rounded-full overflow-hidden bg-white hover:bg-green-600 cursor-pointer"><ChevronLeft className="h-4 w-4 text-black"/></button>
+            <button onClick={()=>setPage(prev=>prev<totalPages ? prev+1 : totalPages)} className="w-6 h-6 flex justify-center items-center rounded-full overflow-hidden bg-white hover:bg-green-600 cursor-pointer"><ChevronRight className="h-4 w-4 text-black"/></button>
           </div>
         </div>
         </div>

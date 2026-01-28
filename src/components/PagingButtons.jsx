@@ -10,9 +10,9 @@ const PagingButtons = () => {
   const dispatch = useDispatch();
 
   const pages = [
-    currentPage !== 1 ? currentPage - 1 : currentPage,
-    currentPage !== 1 ? currentPage: currentPage+1,
-    currentPage === 1 ? currentPage + 2 : currentPage+1 
+    currentPage === 1 ? currentPage : currentPage===filteredResultsPages ? currentPage-2 : currentPage - 1,
+    currentPage === 1 ? currentPage+1 : currentPage===filteredResultsPages ? currentPage-1 : currentPage,
+    currentPage === 1 ? currentPage + 2 : currentPage===filteredResultsPages ? currentPage : currentPage+1 
   ];
 
   const pageBtnClass = (page) =>
@@ -55,7 +55,7 @@ const PagingButtons = () => {
         </button>
 
         {pages.map(page => (
-          <button key={page} onClick={() => handleClick(page)} className={pageBtnClass(page)}
+          <button key={page} disabled={currentPage===page} onClick={() => handleClick(page)} className={pageBtnClass(page)}
           >
             {page}
           </button>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaDiscord, FaTwitter } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
@@ -14,7 +13,7 @@ const Footer = () => {
         <div className='flex gap-2 flex-wrap p-8'>
             {
                 alphabets.map((alphabet)=>{
-                    return <Link key={alphabet} to={"/"} className='px-3 py-1 bg-[#11161b] hover:bg-gray-700 text-white rounded font-bold text-lg'>
+                    return <Link key={alphabet} to={`/filter?search=${alphabet}`} className='px-3 py-1 bg-[#11161b] hover:bg-gray-700 text-white rounded font-bold text-lg'>
                         {alphabet}
                     </Link>
                 })

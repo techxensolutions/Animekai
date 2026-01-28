@@ -11,20 +11,28 @@ const FiltersPage = () => {
   const type = searchParams.get("type");
   const status = searchParams.get("status");
   const genre = searchParams.get("genre");
+  const search = searchParams.get("search");
   const { draftFilters, setDraftFilters, setAppliedFilters } = useContext(FiltersContext);
   const {filteredAnimes,loading} = useSelector(state=>state.animes);
   const dispatch = useDispatch();
   useEffect(()=>{
-    if (!type && !status && !genre) dispatch(fetchAnimesByFilters({filters:{...initialFilters}}));
-    const name_array=[];
-    const new_filters={...initialFilters,[type ? "type" : status ? "status" : "genre"]:[...name_array,type ? type : genre ? genre : status==="new_releases" ? "Not yet aired" : status==="ongoing" ? "Currently Airing" : "Finished Airing"]};
-    setDraftFilters(new_filters);
-    console.log('Drafts in Landing page', new_filters)
-    dispatch(fetchAnimesByFilters({filters:new_filters}))
-  },[type, status, genre])
-//   useEffect(() => {
-//   dispatch(fetchAnimesByFilters({filters:draftFilters}));
-// }, [draftFilters, dispatch]);
+    if (!type && !status && !genre && !search) dispatch(fetchAnimesByFilters({filters:{...initialFilters}}));
+
+    if (!search){
+
+      const name_array=[];
+      const new_filters={...initialFilters,[type ? "type" : status ? "status" : "genre"]:[...name_array,type ? type : genre ? genre : status==="new_releases" ? "Not yet aired" : status==="ongoing" ? "Currently Airing" : "Finished Airing"]};
+      setDraftFilters(new_filters);
+      console.log('Drafts in Landing page', new_filters)
+      dispatch(fetchAnimesByFilters({filters:new_filters}))
+    }else {
+      const new_filters=search==="All" ? {...initialFilters} : {...initialFilters,search};
+      setDraftFilters(new_filters);
+      console.log('Drafts in Landing page', new_filters)
+      dispatch(fetchAnimesByFilters({filters:new_filters}))
+
+    }
+  },[type, status, genre, search])
 
   return (
     <>

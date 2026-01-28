@@ -1,4 +1,5 @@
 import { Bookmark, Mic2Icon } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const ItemDetails = ({currentItem,currentIndex}) => {
   return (
@@ -33,9 +34,9 @@ const ItemDetails = ({currentItem,currentIndex}) => {
       </div>
       </div>
       <div className='flex gap-12 items-center flex-wrap'>
-        <button className='bg-[#E45F3A] text-2xl px-12 py-2 rounded-lg'>
+        <Link to={`/watch/${currentItem?.episodes[0]?.slugs[0]}`} className='bg-[#E45F3A] text-2xl px-12 py-2 rounded-lg'>
             Watch Now
-        </button>
+        </Link>
         <Bookmark className='h-7 w-7'/>
       </div>
       </div> 

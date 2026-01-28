@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const EpisodeNumbers = ({episodes,episode,fetchEpisode}) => {
   return (
     <>
-      <div className='w-[30%] rounded-2xl bg-[#0C1116] p-4'>
+      <div className='lg:w-[30%] w-full rounded-2xl bg-[#0C1116] p-4'>
           <div className='flex justify-between'>
             <span className='text-sm text-white font-bold'>Episodes:</span>
             <div className='flex gap-1'>
@@ -13,7 +13,7 @@ const EpisodeNumbers = ({episodes,episode,fetchEpisode}) => {
                 <span className='absolute left-1'>#</span>
               <input type="text" className='rounded-md bg-gray-800 pl-5 w-40' placeholder='Find'/>
               </div>
-              <button className='rounded-sm p-1 bg-gray-800'><Menu className='h-3 w-3 text-gray-900 bg-gray-400 rounded-sm'/></button>
+              <button className='rounded-sm p-1 bg-gray-800'><Menu className='h-3 w-3 text-gray-900 bg-gray-400 rounded-xs'/></button>
             </div>
           </div>
           <div className='flex justify-between p-1 bg-gray-800 rounded-md my-5'>
