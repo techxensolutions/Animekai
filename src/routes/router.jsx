@@ -5,6 +5,7 @@ import BlankLayout from "../BlankLayout";
 import Home from "../pages/Home";
 import FiltersPage from "../pages/FiltersPage";
 import WatchMovie from "../pages/WatchMovie";
+import AnimeDetailsPage from "../pages/AnimeDetails";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,11 @@ const router = createBrowserRouter([
       {
         path:"/watch/:slug",
         element:<WatchMovie/>
-      }
+      },
+      {
+        path:"/details/:slug",
+        element:<AnimeDetailsPage />
+      },
     ],
   },
   {

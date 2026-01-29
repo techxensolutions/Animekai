@@ -84,7 +84,7 @@ const WatchMovie = () => {
   return (
     <>
       <div className={`${loading ? "":"pt-40"} filterspage min-h-screen`}>
-    {loading ? <div className="text-white font-black text-3xl my-16 text-center h-screen flex justify-center items-center">Loading...</div> :
+    {loading ? <div className="text-white font-black text-3xl my-16 text-center h-screen flex justify-center items-center"><img src="/images/loading.svg" alt="" /></div> :
     (<>
       <div className='flex gap-8 mx-8 max-lg:flex-wrap' style={{zIndex:10,position:"relative"}}>
         <div className='lg:w-[75%] w-full'>

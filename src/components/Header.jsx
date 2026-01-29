@@ -25,7 +25,13 @@ const Header = () => {
 
   const fetchSearchResults=async (e)=>{
       const {name,value} = e.target;
-      if (value==="") return;
+      if (value.trim()==="") {
+        setResults([])
+        setShowResults(false)
+        return;
+      }
+      setShowResults(true)
+      setResults([])
       try {
       const response = await axios.post(`${BASE_URI}/api/search`,{[name]:value});
       console.log('Search results: ', response.data)
@@ -41,7 +47,7 @@ const Header = () => {
     },[])
   return (
     <>
-    <header className={`bg-[#0C1116] box-border flex justify-between m-4 mx-6 rounded-2xl p-3 fixed z-2 top-0 right-0 left-0 transition-all delay-100 duration-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"}`}>
+    <header className={`bg-[#0C1116] box-border flex justify-between m-4 mx-6 rounded-2xl p-3 fixed z-2 top-0 right-0 left-0 transition-all delay-100 duration-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-96"}`}>
         <div className='flex gap-3 items-center relative'>
       <Menu onClick={()=>setShowDropdown(prev=>!prev)} className='text-white cursor-pointer'/>
         <Link to={"/"}>
@@ -101,7 +107,6 @@ const Header = () => {
               name='title'
               onChange={fetchSearchResults}
               onFocus={() => setShowResults(true)}
-              onBlur={() => setTimeout(() => setShowResults(false), 150)}
             />
             <Search className="absolute text-white z-11 h-4 w-4 top-3 left-2" />
             <div className="absolute text-white top-3 right-2 flex items-center hover:text-[#fd7e14]">
@@ -118,7 +123,7 @@ const Header = () => {
                 (
                   results.map((res)=>{
 
-                    return  <Link to={"/"} key={res?.title} className='flex text-white text-sm font-semibold gap-2'>
+                    return  <Link to={`/details/${res?.slugs?.[0]}`} key={res?.title} className='flex text-white text-sm font-semibold gap-2'>
                   <img src={res?.image} alt="" className='h-20 w-auto' />
                   <div className='font-bold text-gray-400 space-y-1'>
                     <p className='text-white'>{res?.title?.slice(0,23)+"..."}</p>
