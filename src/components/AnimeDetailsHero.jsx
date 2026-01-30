@@ -15,7 +15,7 @@ export default function AnimeDetailsHero({
   return (
     <div className='relative'>
       <div
-        className='h-98 bg-cover bg-center'
+        className='h-72 lg:h-80 xl:h-98 bg-cover bg-center'
         style={{
           backgroundImage: `url('${bannerImage}')`,
           backgroundPosition: 'center',
@@ -25,7 +25,7 @@ export default function AnimeDetailsHero({
       </div>
 
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4'>
-        <div className='relative -mt-32 flex gap-8'>
+        <div className='relative -mt-32 flex flex-wrap gap-8 max-[506px]:justify-center'>
           <div className='relative z-10 shrink-0'>
             <img
               src={posterImage}

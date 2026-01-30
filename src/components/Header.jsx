@@ -47,10 +47,10 @@ const Header = () => {
     },[])
   return (
     <>
-    <header className={`bg-[#0C1116] box-border flex justify-between m-4 mx-6 rounded-2xl p-3 fixed z-2 top-0 right-0 left-0 transition-all delay-100 duration-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-96"}`}>
+    <header className={`bg-[#0C1116] box-border flex justify-between m-4 mx-6 rounded-2xl p-3 fixed z-2 top-0 right-0 left-0 transition-all delay-100 duration-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-96 max-md:gap-2"}`}>
         <div className='flex gap-3 items-center relative'>
       <Menu onClick={()=>setShowDropdown(prev=>!prev)} className='text-white cursor-pointer'/>
-        <Link to={"/"}>
+        <Link to={"/"} className='max-[550px]:hidden'>
         <img src="/images/logo.png" alt="logo" width={"150px"} height={"auto"} />
         </Link>
       {
@@ -98,20 +98,25 @@ const Header = () => {
       </div>
       }
         </div>
-        <div className='flex items-center gap-4'>
-            <div className="relative max-w-72">
+        <div className='flex items-center gap-4 max-md:flex-1'>
+            <div className="relative max-md:w-full">
             <input
               type="text"
               className="w-full p-2 bg-[#181d22] text-white rounded-xl pl-9 pr-14 focus:outline-none"
               placeholder="Search anime"
               name='title'
               onChange={fetchSearchResults}
-              onFocus={() => setShowResults(true)}
+              onFocus={(e) => {
+                if (e.target.value===""){
+                  setShowResults(false);
+                  return;
+                }
+                setShowResults(true)}}
             />
             <Search className="absolute text-white z-11 h-4 w-4 top-3 left-2" />
             <div className="absolute text-white top-3 right-2 flex items-center hover:text-[#fd7e14]">
               <Filter fill="white" className="w-4 h-4 " />
-              <span className='text-sm'>Filter</span>
+              <span className='text-sm max-[300px]:hidden'>Filter</span>
             </div>
             {
             showResults &&
@@ -121,9 +126,9 @@ const Header = () => {
               {
                 results.length>0 ?
                 (
-                  results.map((res)=>{
+                  results.map((res,ind)=>{
 
-                    return  <Link to={`/details/${res?.slugs?.[0]}`} key={res?.title} className='flex text-white text-sm font-semibold gap-2'>
+                    return  <Link to={`/details/${res?.slugs?.[0]}`} key={ind} className='flex text-white text-sm font-semibold gap-2'>
                   <img src={res?.image} alt="" className='h-20 w-auto' />
                   <div className='font-bold text-gray-400 space-y-1'>
                     <p className='text-white'>{res?.title?.slice(0,23)+"..."}</p>
@@ -168,7 +173,7 @@ const Header = () => {
         {
           showGenres && genres.map((item)=>{
             
-            return <Link key={item} to={`/filter?genre=${item}`} className='block hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
+            return <Link onClick={()=>setShowDropdown(false)} key={item} to={`/filter?genre=${item}`} className='block hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
         {item}
         </Link>
           })
@@ -182,33 +187,33 @@ const Header = () => {
         {
           showTypes && types.map((item)=>{
             
-            return <Link key={item} to={`/filter?type=${item}`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
+            return <Link onClick={()=>setShowDropdown(false)} key={item} to={`/filter?type=${item}`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-xs'>
         {item}
         </Link>
           })
         }
-        <Link to={`/filter?status=new_releases`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link onClick={()=>setShowDropdown(false)} to={`/filter?status=new_releases`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         NEW RELEASES
         </Link>
-        <Link to={`/filter?status=updates`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link onClick={()=>setShowDropdown(false)} to={`/filter?status=updates`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         UPDATES
         </Link>
-        <Link to={`/filter?status=ongoing`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link onClick={()=>setShowDropdown(false)} to={`/filter?status=ongoing`} className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         ONGOING
         </Link>
-        <Link to={`/filter?`}className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
+        <Link onClick={()=>setShowDropdown(false)} to={`/filter?`}className='block w-full hover:bg-[#2A2F38] p-2 text-gray-300 text-sm'>
         RECENT
         </Link>
         <div className='w-full flex gap-4 min-[835px]:hidden max-[835px]:justify-center max-[835px]:flex-wrap'>
 
-          <Link to={"/"} >
+          <Link onClick={()=>setShowDropdown(false)} to={"/"} >
           <Users2 className='h-7 w-7 text-white'/>
           </Link>
-          <Link to={"/"} >
+          <Link onClick={()=>setShowDropdown(false)} to={"/"} >
           <Shuffle className='h-7 w-7 text-white'/>
           </Link>
           <LanguageToggle/>
-          <Link to={"/"} className='rounded-full bg-gray-800 p-2'>
+          <Link onClick={()=>setShowDropdown(false)} to={"/"} className='rounded-full bg-gray-800 p-2'>
           <User2 className='w-5 h-5 text-white'/>
           </Link>
           </div>

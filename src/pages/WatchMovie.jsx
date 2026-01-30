@@ -91,7 +91,14 @@ const WatchMovie = () => {
           <div className='rounded-t-2xl bg-[#0C1116] inset-0 p-3'> 
             <Breadcrums anime={anime}/>
           </div>
-          <iframe className="w-full h-122 overflow-hidden inset-0" src={episode?.link?.sub[0] || "/sample.mp4"} width={"100%"} height={"100%"} allowFullScreen />
+          <div className="relative w-full aspect-video bg-black">
+  <iframe
+    src={episode?.link?.sub[0] || "/sample.mp4"}
+    className="absolute top-0 left-0 w-full h-full rounded-xl"
+    allowFullScreen
+  />
+</div>
+
           <div className='rounded-b-2xl bg-[#0C1116] inset-0 p-4'> 
             <div className='flex justify-between'>
               <span className='font-bold text-white'>You are watching Episode {episode?.episodeNumber}</span>
@@ -107,8 +114,8 @@ const WatchMovie = () => {
       </div>
       <AnimeDescription anime={anime}/>
       </>)}
-    <div className="mb-7 mx-5 flex gap-8" style={{zIndex:10,position:"relative"}}>
-      <div className='flex-1'>
+    <div className="mb-7 mx-5 flex max-md:flex-col gap-8" style={{zIndex:10,position:"relative"}}>
+      <div className='shrink-0 max-md:w-full md:flex-1'>
         <span className='flex gap-3'>
         <h2 className='text-2xl text-white font-bold'>Comments</h2>
         <span className='bg-[#E45F3A] px-1 text-white h-fit rounded-sm text-sm'>On</span>
@@ -157,7 +164,7 @@ const WatchMovie = () => {
         }
         </div>
       </div>
-        <div className="rounded-2xl overflow-hidden bg-[#0C1116] p-2 w-[25%]">
+        <div className="rounded-2xl overflow-hidden bg-[#0C1116] p-2 shrink-0 w-full max-md:flex-1 md:w-[35%] lg:w-[30%] xl:w-[25%]">
                 <Tops latest={latest} />
         </div>
       </div>
