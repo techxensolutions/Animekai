@@ -27,28 +27,6 @@ export const fetchAnimesByFilters = createAsyncThunk(
     }
   }
 );
-// export const fetchProductByID = createAsyncThunk(
-//   "products/fetchProductById",
-//   async ({id},thunkAPI) => {
-//     try {
-//       const response = await axios.get(`${BASE_URI}/product/fetch/${id}`);
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.response?.data.message || error.message);
-//     }
-//   }
-// );
-// export const fetchProductByCategory = createAsyncThunk(
-//   "products/fetchProductByCategory",
-//   async ({category},thunkAPI) => {
-//     try {
-//       const response = await axios.get(`${BASE_URI}/product/fetchrelated/${category}`);
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.response?.data.message || error.message);
-//     }
-//   }
-// );
 
 const animeSlice = createSlice({
   name: "animes",
@@ -59,7 +37,7 @@ const animeSlice = createSlice({
     relatedAnimes:[],
     filteredResultsPages:0,
     totalFilteredResults:0,
-    loading: true,
+    loading: false,
     error: null,
   },
   reducers: {},
@@ -77,20 +55,6 @@ const animeSlice = createSlice({
         state.loading = false;
         state.error = action.payload || "Failed to fetch animes";
       });
-    //   builder
-    //   .addCase(fetchProductByID.pending, (state) => {
-    //     state.loading = true;
-    //     state.error = null;
-    //     state.productById = null;
-    //   })
-    //   .addCase(fetchProductByID.fulfilled, (state, action) => {
-    //     state.loading = false;
-    //     state.productById = action.payload;
-    //   })
-    //   .addCase(fetchProductByID.rejected, (state, action) => {
-    //     state.loading = false;
-    //     state.error = action.payload || "Failed to fetch product by ID";
-    //   });
       builder
       .addCase(fetchAnimesByFilters.pending, (state) => {
         state.loading = true;
@@ -106,19 +70,6 @@ const animeSlice = createSlice({
         state.loading = false;
         state.error = action.payload || "Failed to fetch products";
       });
-    //   builder
-    //   .addCase(fetchProductByCategory.pending, (state) => {
-    //     state.loading = true;
-    //     state.error = null;
-    //   })
-    //   .addCase(fetchProductByCategory.fulfilled, (state, action) => {
-    //     state.loading = false;
-    //     state.relatedProducts = action.payload;
-    //   })
-    //   .addCase(fetchProductByCategory.rejected, (state, action) => {
-    //     state.loading = false;
-    //     state.error = action.payload || "Failed to fetch products";
-    //   });
   },
 });
 

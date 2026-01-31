@@ -133,9 +133,7 @@ const Header = () => {
                   <div className='font-bold text-gray-400 space-y-1'>
                     <p className='text-white'>{res?.title?.slice(0,23)+"..."}</p>
                     <p>{res?.Status}</p>
-                    <ul className='list-disc'>
-                      <li>{res?.Type}</li>
-                    </ul>
+                      <p>• {res?.Type}</p>
                   </div>
               </Link>
                   })
@@ -155,7 +153,7 @@ const Header = () => {
           <Shuffle className='h-7 w-7 text-white'/>
           </Link>
           <LanguageToggle/>
-          <Link to={"/"} className='rounded-full bg-gray-800 p-2'>
+          <Link to={"/login"} className='rounded-full bg-gray-800 p-2'>
           <User2 className='w-5 h-5 text-white'/>
           </Link>
           </div>
@@ -213,7 +211,7 @@ const Header = () => {
           <Shuffle className='h-7 w-7 text-white'/>
           </Link>
           <LanguageToggle/>
-          <Link onClick={()=>setShowDropdown(false)} to={"/"} className='rounded-full bg-gray-800 p-2'>
+          <Link onClick={()=>setShowDropdown(false)} to={"/login"} className='rounded-full bg-gray-800 p-2'>
           <User2 className='w-5 h-5 text-white'/>
           </Link>
           </div>
