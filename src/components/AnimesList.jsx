@@ -1,81 +1,24 @@
-'use client';
-
-import React from "react"
-
-import { useState } from 'react';
-import { Search, Eye, Edit2, Trash2 } from 'lucide-react';
-
-const initialAnimes = [
-  {
-    id: 1,
-    title: "My Status as an Assassin Obviously Exceeds the Hero's",
-    genres: ['Action', 'Adventure', 'Fantasy'],
-    episodes: 13,
-  },
-  {
-    id: 2,
-    title: 'Gintama - Mr. Ginpachi\'s Zany Class',
-    genres: ['Comedy'],
-    episodes: 12,
-  },
-  {
-    id: 3,
-    title: 'A Gatherer\'s Adventure in Isekai',
-    genres: ['Adventure', 'Fantasy'],
-    episodes: 12,
-  },
-  {
-    id: 4,
-    title: 'Plus-sized Misadventures in Love!',
-    genres: ['Comedy', 'Romance'],
-    episodes: 12,
-  },
-  {
-    id: 5,
-    title: 'A Mangaka\'s Weirdly Wonderful Workplace',
-    genres: ['Comedy'],
-    episodes: 13,
-  },
-  {
-    id: 6,
-    title: 'Amila to Cocora',
-    genres: ['Slice of Life'],
-    episodes: 13,
-  },
-  {
-    id: 7,
-    title: 'Koupen-chan',
-    genres: ['Slice of Life'],
-    episodes: 43,
-  },
-  {
-    id: 8,
-    title: 'Theatre of Darkness: Yamishibai 15',
-    genres: ['Avant Garde', 'Horror', 'Supernatural'],
-    episodes: 13,
-  },
-  {
-    id: 9,
-    title: 'Gachiakuta',
-    genres: ['Action', 'Fantasy'],
-    episodes: 24,
-  },
-  {
-    id: 10,
-    title: 'Hands Off: Sawaranaide Kotesashi-kun',
-    genres: ['Sports', 'Ecchi'],
-    episodes: 12,
-  },
-];
+import { useState } from "react";
+import { Search, Eye, Edit2, Trash2 } from "lucide-react";
+import initialAnimes from "../data/animes.json"
+import AddAnime from "./AddAnime";
 
 export default function AnimesList() {
+  const [addAnime, setAddAnime] = useState(false);
   const [animes, setAnimes] = useState(initialAnimes);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedAnimes, setSelectedAnimes] = useState([]);
+  const [idFilteredAnime, setIdFilteredAnime] = useState(null);
+  const [searchId, setSearchId] = useState("");
 
   const filteredAnimes = animes.filter((anime) =>
-    anime.title.toLowerCase().includes(searchTerm.toLowerCase())
+    anime.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+  const handleIdSearch = (id) => {
+    setIdFilteredAnime(animes.find((anime) =>
+      anime.mal_id===Number(id)
+  ))
+}
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -87,7 +30,7 @@ export default function AnimesList() {
 
   const handleSelectAnime = (id) => {
     setSelectedAnimes((prev) =>
-      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id],
     );
   };
 
@@ -102,21 +45,41 @@ export default function AnimesList() {
   };
 
   const genreColors = {
-    Action: 'bg-blue-500',
-    Adventure: 'bg-blue-600',
-    Fantasy: 'bg-purple-500',
-    Comedy: 'bg-blue-500',
-    Romance: 'bg-pink-500',
-    'Slice of Life': 'bg-cyan-500',
-    'Avant Garde': 'bg-indigo-600',
-    Horror: 'bg-red-600',
-    Supernatural: 'bg-purple-600',
-    Sports: 'bg-green-500',
-    Ecchi: 'bg-purple-500',
+    Action: "bg-blue-500",
+    Adventure: "bg-blue-600",
+    Fantasy: "bg-purple-500",
+    Comedy: "bg-blue-500",
+    Romance: "bg-pink-500",
+    "Slice of Life": "bg-cyan-500",
+    "Avant Garde": "bg-indigo-600",
+    Horror: "bg-red-600",
+    Supernatural: "bg-purple-600",
+    Sports: "bg-green-500",
+    Ecchi: "bg-purple-500",
   };
 
-  return (
-    <main className="flex-1 p-6 bg-gray-50 overflow-auto">
+  return addAnime ? (
+    <div>
+      <div className="flex justify-between">
+        <div className="flex gap-4">
+          <input
+            type="text"
+            name="search"
+            value={searchId}
+            onChange={(e)=>setSearchId(e.target.value)}
+            className="border border-gray-400 p-2 rounded-md w-96"
+            placeholder="Enter Anime ID..."
+          />
+          <button onClick={()=>handleIdSearch(searchId)} className="bg-black text-white rounded-md p-2">Search</button>
+        </div>
+        {idFilteredAnime && <button className="rounded-md p-2 border border-black">
+          Save Anime
+        </button>}
+      </div>
+      {idFilteredAnime && <AddAnime anime={idFilteredAnime}/>}
+    </div>
+  ) : (
+    <>
       <div className="flex gap-4 mb-6">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -135,7 +98,10 @@ export default function AnimesList() {
         >
           Delete Selected
         </button>
-        <button className="px-4 py-2 bg-gray-800 text-white rounded-lg font-medium hover:bg-gray-900 transition-colors">
+        <button
+          onClick={() => setAddAnime(true)}
+          className="px-4 py-2 bg-gray-800 text-white rounded-lg font-medium hover:bg-gray-900 transition-colors"
+        >
           Add Anime
         </button>
       </div>
@@ -172,14 +138,14 @@ export default function AnimesList() {
           <tbody>
             {filteredAnimes.map((anime) => (
               <tr
-                key={anime.id}
+                key={anime._id}
                 className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
               >
                 <td className="px-4 py-3">
                   <input
                     type="checkbox"
-                    checked={selectedAnimes.includes(anime.id)}
-                    onChange={() => handleSelectAnime(anime.id)}
+                    checked={selectedAnimes.includes(anime._id)}
+                    onChange={() => handleSelectAnime(anime._id)}
                     className="w-4 h-4 cursor-pointer"
                   />
                 </td>
@@ -191,7 +157,7 @@ export default function AnimesList() {
                     {anime.genres.map((genre) => (
                       <span
                         key={genre}
-                        className={`${genreColors[genre] || 'bg-blue-500'} text-white text-xs px-2 py-1 rounded`}
+                        className={`${genreColors[genre] || "bg-blue-500"} text-white text-xs px-2 py-1 rounded`}
                       >
                         {genre}
                       </span>
@@ -199,7 +165,7 @@ export default function AnimesList() {
                   </div>
                 </td>
                 <td className="px-4 py-3 text-sm text-center text-gray-800 font-medium">
-                  {anime.episodes}
+                  {anime.episodes.length}
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex justify-center gap-2">
@@ -210,7 +176,7 @@ export default function AnimesList() {
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => handleDelete(anime.id)}
+                      onClick={() => handleDelete(anime._id)}
                       className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -222,6 +188,6 @@ export default function AnimesList() {
           </tbody>
         </table>
       </div>
-    </main>
+    </>
   );
 }

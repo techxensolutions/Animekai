@@ -1,6 +1,25 @@
 import { Moon, Sun, LogOut } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../store/UserSlice';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function AdminHeader({ darkMode, setDarkMode }) {
+  const {token, user} = useSelector(prev=>prev.user)
+    const dispatch=useDispatch();
+    const navigate=useNavigate()
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  }
+  useEffect(() => {
+    if (!token || !user) {
+      // if (user?.role === "admin") {
+        navigate("/login");
+      // } else {
+        // navigate("/home");
+        // }
+      }
+  }, [token, user, navigate]);
   return (
     <header className="bg-white border-b border-gray-300 px-6 py-4 flex items-center justify-between">
       <div>
@@ -25,7 +44,7 @@ export default function AdminHeader({ darkMode, setDarkMode }) {
           Clear Anime Cache
         </button>
 
-        <button className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors">
+        <button onClick={()=>handleLogout()} className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors">
           <LogOut className="w-4 h-4" />
           Logout
         </button>

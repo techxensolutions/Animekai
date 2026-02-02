@@ -11,7 +11,7 @@ export const registerUser = createAsyncThunk(
         console.log('register: ', response.data)
         return response.data;
       } catch (error) {
-        toast.error("Error in Registration")
+        toast.error(error.response?.data?.msg || "Error in Registration")
         console.log('Error in login: ', error)
         return thunkAPI.rejectWithValue(error.response?.data.error || error.message);
       }
@@ -26,18 +26,52 @@ export const registerUser = createAsyncThunk(
       console.log('login: ', response.data)
       return response.data;
     } catch (error) {
-      toast.error("Error in Login")
+      toast.error(error.response?.data?.msg || "Error in Login")
         console.log('Error in login: ', error)
       return thunkAPI.rejectWithValue(error.response?.data.error || error.message);
     }
   }
 );
+  export const logoutUser = createAsyncThunk(
+  "user/logout",
+  async (_,thunkAPI) => {
+    try {
+      const response = await axios.post(`${BASE_URI}/api/user/logout`,{},{withCredentials:true});
+      toast.success("Logged Out Successfully!")
+      console.log('logout: ', response.data)
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.msg || "Error in Logout")
+      console.log('Error in logout: ', error)
+      return thunkAPI.rejectWithValue(error.response?.data.error || error.message);
+    }
+  }
+);
+export const checkAuth = createAsyncThunk(
+  "user/checkAuth",
+  async (_, thunkAPI) => {
+    console.log('autho being caled: ')
+    try {
+      const res = await axios.get(
+        `${BASE_URI}/api/user/check-auth`,
+        { withCredentials: true }
+      );
+      console.log('autho: ', res.data)
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue("Not authenticated");
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
     user: null,
+    userId: null,
     token: "",
-    loading: false,
+    loading: true,
+    isAuthorized:false,
     error: null,
   },
   reducers: {},
@@ -63,10 +97,44 @@ const userSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        state.isAuthorized = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || "Failed to Register";
+        state.error = action.payload || "Failed to Login";
+      });
+      builder
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user=null;
+        state.token="";
+        state.isAuthorized = false;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to Logout";
+      });
+      builder
+      .addCase(checkAuth.pending, (state) => {
+        if (!state.isAuthorized) {
+    state.loading = true;
+  }
+        state.error = null;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userId=action.payload.user;
+        state.isAuthorized=true;
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthorized=false;
+        state.user=null;
+        state.error = action.payload || "Failed to Authorize";
       });
   },
 });

@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom'
 import Footer from '../components/Footer'
 
 function BlankLayout() {
-
   return (
     <>
     <main className='max-w-screen overflow-x-hidden'>

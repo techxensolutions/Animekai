@@ -2,17 +2,18 @@ import { useEffect, useState } from 'react';
 import LandingHeader from '../components/LandingHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../store/UserSlice';
+import { checkAuth, loginUser } from '../store/UserSlice';
 
 const Login = () => {
-  const {token, user} = useSelector(prev=>prev.user)
-    const dispatch=useDispatch();
-    const navigate=useNavigate()
-      const [formData, setFormData] = useState({
+  const { isAuthorized, loading, user } = useSelector((state) => state.user);
+  console.log('first', isAuthorized)
+const dispatch=useDispatch();
+const navigate=useNavigate();
+  const [formData, setFormData] = useState({
         emailOrUsername: '',
         password: ''
       });
-        
+      
       const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -20,23 +21,18 @@ const Login = () => {
           [name]: value,
         }));
       };
-    
+      
       const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(loginUser(formData))
-          setFormData({ emailOrUsername: '', password: ''});
+        setFormData({ emailOrUsername: '', password: ''});
       };
-
-      useEffect(() => {
-  if (token) {
-    // if (user?.role === "admin") {
-      navigate("/admin/dashboard");
-    // } else {
-      // navigate("/home");
-    // }
-  }
-}, [token, user, navigate]);
-
+      useEffect(()=>{
+        if(user) {
+          navigate("/admin/dashboard")
+        }
+      },[user, loading, navigate])
+          
   return (
     <>
      <LandingHeader />

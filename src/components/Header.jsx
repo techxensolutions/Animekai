@@ -114,8 +114,8 @@ const Header = () => {
                 setShowResults(true)}}
             />
             <Search className="absolute text-white z-11 h-4 w-4 top-3 left-2" />
-            <div className="absolute text-white top-3 right-2 flex items-center hover:text-[#fd7e14]">
-              <Filter fill="white" className="w-4 h-4 " />
+            <div className="absolute select-none text-white top-3 right-2 flex items-center hover:text-[#fd7e14]">
+              <Filter className="w-4 h-4 hover:fill-[#fd7e14]" />
               <span className='text-sm max-[300px]:hidden'>Filter</span>
             </div>
             {

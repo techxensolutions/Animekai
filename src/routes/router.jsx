@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../layouts/App";
 import LandingPage from "../pages/LandingPage";
 import BlankLayout from "../layouts/BlankLayout";
 import Home from "../pages/Home";
@@ -12,10 +11,11 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AdminPanel from "../pages/AdminPanel";
 import AdminLayout from "../layouts/AdminLayout";
+import MainLayout from "../layouts/MainLayout";
 
 const router = createBrowserRouter([
   {
-    element: <App />,
+    element: <MainLayout />,
     children: [
       {
         path: "/home",
