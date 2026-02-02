@@ -1,14 +1,16 @@
 import axios from 'axios';
 import { Edit2, Eye, Plus, Trash2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
+import EpisodesTable from './EpisodesTable';
 
 const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 
-const AddAnime = ({anime}) => {
+const EditAnime = ({anime}) => {
       const [episodes,setEpisodes] = useState([]);
     const [formData, setFormData] = useState(anime);
     const [showSubLink, setShowSubLink] = useState(false);
     const [showDubLink, setShowDubLink] = useState(false);
+    const [addEpisode, setAddEpisode] = useState(false);
     const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -51,6 +53,21 @@ const AddAnime = ({anime}) => {
                 />
               </div>
                 <div>
+                <label htmlFor="Japanese" className="block text-sm font-semibold mb-2">
+                  Anime Japanese Name <span className="text-black">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="Japanese"
+                  name="Japanese"
+                  value={formData?.Japanese}
+                  onChange={handleChange}
+                  required
+                  placeholder="Anime Japanese Name"
+                  className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition"
+                />
+              </div>
+                <div>
                 <label htmlFor="synopsis" className="block text-sm font-semibold mb-2">
                   Anime Synopsis <span className="text-black">*</span>
                 </label>
@@ -64,17 +81,39 @@ const AddAnime = ({anime}) => {
                   className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition"
                 ></textarea>
               </div>
-              <div>
-                <h3 className='font-bold text-black'>Genres</h3>
-                <div className='flex gap-2 flex-wrap'>
-                    {
-                        formData?.genres?.map((genre)=>{
-                            return <span key={genre} className='text-blue-600 bg-blue-300 font-semibold text-sm p-2 rounded-full'>{genre}</span>
-                        })
-                    }
-                </div>
+                <div>
+                <label htmlFor="Status" className="block text-sm font-semibold mb-2">
+                  Anime Status <span className="text-black">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="Status"
+                  name="Status"
+                  value={formData?.Status}
+                  onChange={handleChange}
+                  required
+                  placeholder="Anime Status"
+                  className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition"
+                />
               </div>
-              <div className='border border-black p-4 rounded-xl shadow-lg space-y-3'>
+                <div>
+                <label htmlFor="image" className="block text-sm font-semibold mb-2">
+                  Slider Image <span className="text-black">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="image"
+                  name="image"
+                  value={formData?.image}
+                  onChange={handleChange}
+                  required
+                  placeholder="Slider Image"
+                  className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition"
+                />
+              </div>
+              {
+                addEpisode &&
+                <div className='border border-black p-4 rounded-xl shadow-lg space-y-3'>
                 <h2 className='text-2xl font-bold text-red-600'>Add Episode</h2>
                 <div className='flex gap-2'>
 
@@ -97,63 +136,16 @@ const AddAnime = ({anime}) => {
                     <input type="text" name='dubLink' placeholder='Dub Link URL' className='w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition' />
                     <button type='button' onClick={()=>setShowDubLink(false)}><Trash2 className='h-5 w-5 text-red-600 fill-red-600 font-bold'/></button>
                 </div>}
-              </div>
+              </div>}
             </form>
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-gray-200 border-b border-gray-300">
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Episode Number
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                Title
-              </th>
-              <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {episodes?.map((ep) => (
-              <tr
-                key={ep?.episodeNumber}
-                className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
-              >
-                <td className="px-4 py-3 text-sm text-center text-gray-800 font-medium">
-                  {ep?.episodeNumber}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-800 font-medium">
-                  {ep?.title}
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex justify-center gap-2">
-                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600">
-                      <Eye className="w-4 h-4" />
-                    </button>
-                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600">
-                      <Edit2 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(ep?.episodeNumber)}
-                      className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
         </div>
         <div className='flex-1'>
             <img src={formData?.image} className='rounded-lg' alt="" height={"400px"} width={"auto"} />
         </div>
-    </div> 
+    </div>
+        <EpisodesTable initialEpisodes={episodes} setAddEpisode={setAddEpisode} />
     </>
   )
 }
 
-export default AddAnime
+export default EditAnime

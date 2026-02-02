@@ -3,9 +3,9 @@ import axios from "axios";
 const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 export const fetchAnimes = createAsyncThunk(
   "animes/fetchAnimes",
-  async (_,thunkAPI) => {
+  async ({cursor},thunkAPI) => {
     try {
-      const response = await axios.get(`${BASE_URI}/api/anime`);
+      const response = await axios.get(`${BASE_URI}/api/anime?cursor=${cursor}`);
       console.log('Animes', response.data)
       return response.data;
     } catch (error) {
@@ -32,6 +32,8 @@ const animeSlice = createSlice({
   name: "animes",
   initialState: {
     animes: [],
+    hasNextPage:true,
+    nextCursor:"",
     animeById: null,
     filteredAnimes:[],
     relatedAnimes:[],
@@ -50,6 +52,8 @@ const animeSlice = createSlice({
       .addCase(fetchAnimes.fulfilled, (state, action) => {
         state.loading = false;
         state.animes = action.payload.animes;
+        state.hasNextPage = action.payload.hasNextPage;
+        state.nextCursor = action.payload.nextCursor;
       })
       .addCase(fetchAnimes.rejected, (state, action) => {
         state.loading = false;

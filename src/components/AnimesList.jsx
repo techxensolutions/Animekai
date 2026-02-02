@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, Eye, Edit2, Trash2 } from "lucide-react";
 import initialAnimes from "../data/animes.json"
 import AddAnime from "./AddAnime";
+import EditAnime from "./EditAnime";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import PaginationAdmin from "./PaginationAdmin";
 
 export default function AnimesList() {
+  const {animes} = useSelector(state=>state.animes);
   const [addAnime, setAddAnime] = useState(false);
-  const [animes, setAnimes] = useState(initialAnimes);
+  const [editAnime, setEditAnime] = useState(false);
+  // const [animes, setAnimes] = useState(initialAnimes);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedAnimes, setSelectedAnimes] = useState([]);
   const [idFilteredAnime, setIdFilteredAnime] = useState(null);
   const [searchId, setSearchId] = useState("");
-
   const filteredAnimes = animes.filter((anime) =>
     anime.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
@@ -22,7 +27,7 @@ export default function AnimesList() {
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedAnimes(filteredAnimes.map((a) => a.id));
+      setSelectedAnimes(filteredAnimes.map((a) => a.mal_id));
     } else {
       setSelectedAnimes([]);
     }
@@ -30,19 +35,24 @@ export default function AnimesList() {
 
   const handleSelectAnime = (id) => {
     setSelectedAnimes((prev) =>
-      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id],
+      prev.includes(id) ? prev.filter((a) => a !== mal_id) : [...prev, id],
     );
   };
 
   const handleDelete = (id) => {
-    setAnimes((prev) => prev.filter((a) => a.id !== id));
+    // setAnimes((prev) => prev.filter((a) => a.mal_id !== id));
     setSelectedAnimes((prev) => prev.filter((a) => a !== id));
   };
 
   const handleDeleteSelected = () => {
-    setAnimes((prev) => prev.filter((a) => !selectedAnimes.includes(a.id)));
+    // setAnimes((prev) => prev.filter((a) => !selectedAnimes.includes(a.mal_id)));
     setSelectedAnimes([]);
   };
+
+  const handleSave = () => {
+    setAddAnime(false);
+    toast.success("Anime saved!")
+  }
 
   const genreColors = {
     Action: "bg-blue-500",
@@ -72,13 +82,15 @@ export default function AnimesList() {
           />
           <button onClick={()=>handleIdSearch(searchId)} className="bg-black text-white rounded-md p-2">Search</button>
         </div>
-        {idFilteredAnime && <button className="rounded-md p-2 border border-black">
+        {idFilteredAnime && <button type="button" onClick={()=>handleSave()} className="rounded-md p-2 border border-black">
           Save Anime
         </button>}
       </div>
-      {idFilteredAnime && <AddAnime anime={idFilteredAnime}/>}
+      {idFilteredAnime && <AddAnime anime={idFilteredAnime} />}
     </div>
-  ) : (
+  ) : editAnime ? ( <div>
+    {idFilteredAnime && <EditAnime anime={idFilteredAnime} />}
+  </div> )  : (
     <>
       <div className="flex gap-4 mb-6">
         <div className="flex-1 relative">
@@ -172,7 +184,7 @@ export default function AnimesList() {
                     <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600">
                       <Eye className="w-4 h-4" />
                     </button>
-                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600">
+                    <button onClick={() => {handleIdSearch(anime.mal_id); setEditAnime(true)}} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600">
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
@@ -187,6 +199,7 @@ export default function AnimesList() {
             ))}
           </tbody>
         </table>
+        <PaginationAdmin />
       </div>
     </>
   );
