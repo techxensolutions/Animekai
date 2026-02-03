@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PawPrint, List, FileText, Megaphone, Maximize2 } from 'lucide-react';
 
-export default function AdminSidebar() {
-  const [active, setActive] = useState('animes');
+export default function AdminSidebar({currentPage, setCurrentPage}) {
+  const [active, setActive] = useState(currentPage);
 
   const menuItems = [
     { id: 'animes', label: 'Animes List', icon: List },
@@ -11,6 +11,9 @@ export default function AdminSidebar() {
     { id: 'slider', label: 'Slider', icon: Maximize2 },
   ];
 
+  useEffect(()=>{
+    setActive(currentPage)
+  },[currentPage])
   return (
     <aside className="w-48 bg-gray-100 border-r border-gray-300 flex flex-col p-4">
       <div className="flex items-center gap-2 mb-8 pb-4 border-b border-gray-300">
@@ -25,7 +28,7 @@ export default function AdminSidebar() {
           return (
             <button
               key={item.id}
-              onClick={() => setActive(item.id)}
+              onClick={() => {setActive(item.id); setCurrentPage(item.id)}}
               className={`flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 isActive
                   ? 'bg-gray-800 text-white'

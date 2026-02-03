@@ -35,7 +35,7 @@ const PaginationAdmin = () => {
 
   const handleNextClick = () => {
       if (hasNextPage === true) {
-        setCurrentPage(prev=>prev-1)
+        setCurrentPage(prev=>prev+1)
     //   setAppliedFilters(prev => ({ ...prev, page: currentPage + 1 }));
     //   dispatch(fetchAnimesByFilters({filters:appliedFilters}));
     }
