@@ -1,47 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Trash2, Edit, Plus, Eye, EyeOff } from "lucide-react";
 import initialads from "../data/ads.json";
 import AdsCard from "./AdsCard";
 import AddEditAds from "./AddEditAds";
+import { useDispatch, useSelector } from "react-redux";
+import { addAds, deleteAd, fetchAds, updateAd } from "../store/adsSlice";
 
 const AdsSection = () => {
-  const [ads, setAds] = useState(initialads);
-
+  const {ads, loading} = useSelector(state=>state.ads);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
+    number:0,
     title: "",
     image: "",
     link: "",
-    type: "Banner",
-    startDate: "",
-    endDate: "",
   });
-
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(fetchAds())
+  },[dispatch])
   const handleAddAd = () => {
-    if (formData.title && formData.image && formData.link) {
+    if (formData.number !== "" && formData.title.trim() && formData.image.trim() && formData.link.trim()) {
+      console.log('Editing id', editingId)
       if (editingId) {
-        setAds(
-          ads.map((ad) => (ad.id === editingId ? { ...ad, ...formData } : ad)),
-        );
+        dispatch(updateAd({id:editingId,formData:formData}))
         setEditingId(null);
       } else {
-        setAds([
-          ...ads,
-          {
-            id: Math.max(...ads.map((a) => a.id), 0) + 1,
-            ...formData,
-            active: true,
-          },
-        ]);
+        dispatch(addAds({formData}))
       }
       setFormData({
+        number:0,
         title: "",
         image: "",
         link: "",
-        type: "Banner",
-        startDate: "",
-        endDate: "",
       });
       setShowForm(false);
     }
@@ -49,25 +41,23 @@ const AdsSection = () => {
 
   const startEdit = (ad) => {
     setFormData({
+      number:ad.number,
       title: ad.title,
       image: ad.image,
       link: ad.link,
-      type: ad.type,
-      startDate: ad.startDate,
-      endDate: ad.endDate,
     });
-    setEditingId(ad.id);
+    setEditingId(ad._id);
     setShowForm(true);
   };
 
   const toggleAdStatus = (id) => {
     setAds(
-      ads.map((ad) => (ad.id === id ? { ...ad, active: !ad.active } : ad)),
+      ads.map((ad) => (ad._id === id ? { ...ad, active: !ad.active } : ad)),
     );
   };
 
-  const deleteAd = (id) => {
-    setAds(ads.filter((ad) => ad.id !== id));
+  const handleDeleteAd = (id) => {
+    dispatch(deleteAd(id));
   };
 
   return (
@@ -86,9 +76,6 @@ const AdsSection = () => {
               title: "",
               image: "",
               link: "",
-              type: "Banner",
-              startDate: "",
-              endDate: "",
             });
             setShowForm(!showForm);
           }}
@@ -110,15 +97,18 @@ const AdsSection = () => {
         />
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {ads.map((ad) => (
+      {loading ? <div className="my-20 flex justify-center" style={{position:"relative", zIndex:"10"}}><img src="/images/loading.svg" alt="" /></div>
+       : 
+       <>
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {ads.length>0 && ads.map((ad) => (
           <AdsCard
             key={ad.id}
             toggleAdStatus={toggleAdStatus}
             ad={ad}
-            deleteAd={deleteAd}
+            deleteAd={handleDeleteAd}
             startEdit={startEdit}
-          />
+            />
         ))}
       </div>
 
@@ -127,6 +117,8 @@ const AdsSection = () => {
           <p className="text-gray-600 text-lg">No ads created yet.</p>
         </div>
       )}
+      </>
+      }
     </div>
   );
 };

@@ -6,7 +6,6 @@ import { checkAuth, loginUser } from '../store/UserSlice';
 
 const Login = () => {
   const { isAuthorized, loading, user } = useSelector((state) => state.user);
-  console.log('first', isAuthorized)
 const dispatch=useDispatch();
 const navigate=useNavigate();
   const [formData, setFormData] = useState({
@@ -29,7 +28,7 @@ const navigate=useNavigate();
       };
       useEffect(()=>{
         if(user) {
-          navigate("/admin/dashboard")
+          navigate("/admin")
         }
       },[user, loading, navigate])
           

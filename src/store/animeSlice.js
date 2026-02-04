@@ -3,9 +3,11 @@ import axios from "axios";
 const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 export const fetchAnimes = createAsyncThunk(
   "animes/fetchAnimes",
-  async ({cursor},thunkAPI) => {
+  async ({id,page},thunkAPI) => {
     try {
-      const response = await axios.get(`${BASE_URI}/api/anime?cursor=${cursor}`);
+      const response = await axios.post(`${BASE_URI}/api/admin/anime?page=${page}&limit=20`,{id},
+        {withCredentials:true}
+      );
       console.log('Animes', response.data)
       return response.data;
     } catch (error) {
@@ -32,12 +34,11 @@ const animeSlice = createSlice({
   name: "animes",
   initialState: {
     animes: [],
-    hasNextPage:true,
-    nextCursor:"",
+    totalPages:1,
     animeById: null,
     filteredAnimes:[],
     relatedAnimes:[],
-    filteredResultsPages:0,
+    filteredResultsPages:1,
     totalFilteredResults:0,
     loading: false,
     error: null,
@@ -52,8 +53,7 @@ const animeSlice = createSlice({
       .addCase(fetchAnimes.fulfilled, (state, action) => {
         state.loading = false;
         state.animes = action.payload.animes;
-        state.hasNextPage = action.payload.hasNextPage;
-        state.nextCursor = action.payload.nextCursor;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchAnimes.rejected, (state, action) => {
         state.loading = false;

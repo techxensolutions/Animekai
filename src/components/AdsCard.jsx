@@ -12,7 +12,7 @@ const AdsCard = ({ ad, startEdit, toggleAdStatus, deleteAd }) => {
             alt={ad.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute top-2 right-2">
+          {/* <div className="absolute top-2 right-2">
             <span
               className={`px-3 py-1 rounded text-xs font-bold text-white ${
                 ad.active ? "bg-green-500" : "bg-gray-400"
@@ -20,26 +20,16 @@ const AdsCard = ({ ad, startEdit, toggleAdStatus, deleteAd }) => {
             >
               {ad.active ? "Active" : "Inactive"}
             </span>
-          </div>
+          </div> */}
         </div>
 
         <div className="p-4">
           <h3 className="font-bold text-gray-900 mb-2">{ad.title}</h3>
           <div className="space-y-2 mb-4">
-            <div>
-              <p className="text-xs text-gray-600">Type</p>
-              <p className="text-sm font-medium text-gray-900">{ad.type}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-600">Duration</p>
-              <p className="text-sm font-medium text-gray-900">
-                {ad.startDate} to {ad.endDate}
-              </p>
-            </div>
           </div>
 
           <div className="flex gap-2">
-            <button
+            {/* <button
               onClick={() => toggleAdStatus(ad.id)}
               className={`flex-1 py-2 rounded text-sm font-medium ${
                 ad.active
@@ -52,7 +42,7 @@ const AdsCard = ({ ad, startEdit, toggleAdStatus, deleteAd }) => {
               ) : (
                 <EyeOff size={16} className="mx-auto" />
               )}
-            </button>
+            </button> */}
             <button
               onClick={() => startEdit(ad)}
               className="flex-1 py-2 rounded text-sm font-medium bg-blue-100 text-blue-600 hover:bg-blue-200"
@@ -60,7 +50,7 @@ const AdsCard = ({ ad, startEdit, toggleAdStatus, deleteAd }) => {
               <Edit size={16} className="mx-auto" />
             </button>
             <button
-              onClick={() => deleteAd(ad.id)}
+              onClick={() => deleteAd(ad._id)}
               className="flex-1 py-2 rounded text-sm font-medium bg-red-100 text-red-600 hover:bg-red-200"
             >
               <Trash2 size={16} className="mx-auto" />

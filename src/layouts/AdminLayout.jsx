@@ -21,7 +21,8 @@ const [currentPage, setCurrentPage] = useState('animes');
   const renderPage = () => {
     switch (currentPage) {
       case 'animes':
-        return <AnimesList />;
+        return (loading ? <div className="my-20 flex justify-center" style={{position:"relative", zIndex:"10"}}><img src="/images/loading.svg" alt="" /></div> :
+                <AnimesList />)
       case 'details':
         return <Details onBack={() => setCurrentPage('animes')} />;
       case 'ads':

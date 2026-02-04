@@ -63,13 +63,7 @@ const router = createBrowserRouter([
   },
   {
     path: "admin",
-    element: <AdminLayout />,
-    children: [
-      {
-        path: "dashboard",
-        element: <AdminPanel />,
-      },
-    ],
+    element: <AdminLayout />
   },
 ]);
 export default router;

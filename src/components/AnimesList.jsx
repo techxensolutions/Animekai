@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PaginationAdmin from "./PaginationAdmin";
 
 export default function AnimesList() {
-  const {animes} = useSelector(state=>state.animes);
+  const {animes,loading} = useSelector(state=>state.animes);
   const [addAnime, setAddAnime] = useState(false);
   const [editAnime, setEditAnime] = useState(false);
   // const [animes, setAnimes] = useState(initialAnimes);
@@ -119,6 +119,7 @@ export default function AnimesList() {
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
+        {loading ? <div className="my-20 flex justify-center" style={{position:"relative", zIndex:"10"}}><img src="/images/loading.svg" alt="" /></div> :
         <table className="w-full">
           <thead>
             <tr className="bg-gray-200 border-b border-gray-300">
@@ -198,7 +199,7 @@ export default function AnimesList() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>}
         <PaginationAdmin />
       </div>
     </>
