@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAuth } from '../store/UserSlice';
+import { checkAuth } from '../store/userSlice';
 import AnimesList from '../components/AnimesList';
 import Details from '../components/Details';
 import AdsSection from '../components/AdsSection';
@@ -21,8 +21,7 @@ const [currentPage, setCurrentPage] = useState('animes');
   const renderPage = () => {
     switch (currentPage) {
       case 'animes':
-        return (loading ? <div className="my-20 flex justify-center" style={{position:"relative", zIndex:"10"}}><img src="/images/loading.svg" alt="" /></div> :
-                <AnimesList />)
+        return <AnimesList />;
       case 'details':
         return <Details onBack={() => setCurrentPage('animes')} />;
       case 'ads':
