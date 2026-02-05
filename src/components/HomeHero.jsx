@@ -33,14 +33,14 @@ const HomeHero = ({latest}) => {
   const currentItem=featured[currentIndex]?.anime;
   return (
     <>
-      <section key={currentIndex} className={`min-h-[calc(100vh+60px)] bg-cover bg-no-repeat bg-center relative flex items-center max-md:justify-center box-border transition-all duration-75 ease-in-out animate-fade overflow-x-hidden`} style={{ backgroundImage: `url(${currentItem?.image})` }}>
+      <section key={currentIndex} className={`min-h-[calc(100vh+60px)] bg-cover bg-no-repeat bg-center relative flex items-center max-md:justify-center box-border transition-all duration-75 ease-in-out animate-fade overflow-x-hidden`} style={{ backgroundImage: `url(${currentItem?.landScapeImage})` }}>
       <div className='herogradient inset-0 h-full w-full absolute'/>
       <div className='text-white text-xl absolute z-10 bottom-16 right-9 flex gap-4 items-center'>
         <button>&lt;</button>
         <div className='space-x-3'>
         <span className='text-3xl'>{currentIndex+1}</span>
         <span>/</span>
-        <span>5</span>
+        <span>{featured?.length}</span>
         </div>
         <button>&gt;</button>
       </div>

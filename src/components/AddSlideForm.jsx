@@ -5,30 +5,20 @@ const AddSlideForm = ({formData, setFormData, handleAddSlide, setShowForm}) => {
           <h2 className="text-xl font-bold text-gray-900 mb-4">Create New Slide</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Slide Title</label>
+              <label className="block text-gray-700 font-medium mb-2">Anime Id</label>
               <input
                 type="text"
-                placeholder="Enter slide title"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="Enter Anime Id"
+                value={formData.id}
+                onChange={(e) => setFormData({ ...formData, id: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">Description</label>
-              <textarea
-                placeholder="Enter slide description"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows={3}
               />
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-2">Image URL</label>
               <input
                 type="text"
-                placeholder="Enter image URL (recommended: 1200x400)"
+                placeholder="Enter image URL"
                 value={formData.image}
                 onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

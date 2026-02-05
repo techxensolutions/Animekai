@@ -6,7 +6,6 @@ import { useScrollVisibility } from '../hooks/useScrollVisibility'
 import { useDispatch } from 'react-redux'
 import { fetchAnimes } from '../store/animeSlice'
 import axios from 'axios'
-import FiltersContext from '../context/FiltersContext'
 
 const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 
@@ -153,7 +152,7 @@ const Header = () => {
           <Shuffle className='h-7 w-7 text-white'/>
           </Link>
           <LanguageToggle/>
-          <button onClick={()=>navigate("/login")} className='rounded-full bg-gray-800 p-2'>
+          <button onClick={()=>navigate("/login")} className='rounded-full bg-gray-800 p-2 cursor-pointer'>
           <User2 className='w-5 h-5 text-white'/>
           </button>
           </div>

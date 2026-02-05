@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Search, Eye, Edit2, Trash2 } from "lucide-react";
-import initialAnimes from "../data/animes.json"
 import AddAnime from "./AddAnime";
 import EditAnime from "./EditAnime";
 import { toast } from "react-toastify";
@@ -21,13 +20,13 @@ export default function AnimesList() {
   );
   const handleIdSearch = (id) => {
     setIdFilteredAnime(animes.find((anime) =>
-      anime.mal_id===Number(id)
+      anime._id===id
   ))
 }
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedAnimes(filteredAnimes.map((a) => a.mal_id));
+      setSelectedAnimes(filteredAnimes.map((a) => a._id));
     } else {
       setSelectedAnimes([]);
     }
@@ -35,7 +34,7 @@ export default function AnimesList() {
 
   const handleSelectAnime = (id) => {
     setSelectedAnimes((prev) =>
-      prev.includes(id) ? prev.filter((a) => a !== mal_id) : [...prev, id],
+      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id],
     );
   };
 
@@ -185,7 +184,7 @@ export default function AnimesList() {
                     <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600">
                       <Eye className="w-4 h-4" />
                     </button>
-                    <button onClick={() => {handleIdSearch(anime.mal_id); setEditAnime(true)}} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600">
+                    <button onClick={() => {handleIdSearch(anime._id); setEditAnime(true)}} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600">
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button

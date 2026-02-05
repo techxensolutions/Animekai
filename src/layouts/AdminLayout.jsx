@@ -11,7 +11,7 @@ import Slider from '../components/Slider';
 
 function AdminLayout() {
     const [darkMode, setDarkMode] = useState(false);
-  const { isAuthorized, loading, user } = useSelector(
+  const { loading, user } = useSelector(
     (state) => state.user
   );
   const navigate = useNavigate();
@@ -37,10 +37,10 @@ const [currentPage, setCurrentPage] = useState('animes');
     dispatch(checkAuth());
   }, [dispatch]);
   useEffect(() => {
-    if (!isAuthorized) {
+    if (!user) {
       navigate("/login");
     }
-  }, [loading, isAuthorized]);
+  }, [loading, user]);
 
   return (
     

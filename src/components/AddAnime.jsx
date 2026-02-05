@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Edit2, Eye, Plus, Trash2 } from 'lucide-react';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 

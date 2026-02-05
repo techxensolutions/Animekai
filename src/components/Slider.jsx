@@ -1,30 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trash2, Edit, Plus, GripVertical, Eye, EyeOff } from 'lucide-react';
 import AddSlideForm from './AddSlideForm';
 import Slide from './Slide';
 import initialslides from "../data/slides.json";
+import { useDispatch, useSelector } from 'react-redux';
+import { addFeaturedAnime, fetchFeaturedAnimes, removeFeaturedAnime } from '../store/animeSlice';
 
 const Slider = () => {
+  const {featured,loading} = useSelector(state=>state.animes);
+  const {userId} = useSelector(state=>state.user);
   const [slides, setSlides] = useState(initialslides);
+  const [currentIndex,setCurrentIndex] = useState(0);
+  const dispatch = useDispatch();
 
+  useEffect(()=>{
+    if(userId!==""){
+    dispatch(fetchFeaturedAnimes(userId.id))}
+  },[])
+  useEffect(() => {
+    if (featured.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % featured.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [featured]);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ title: '', description: '', image: '' });
+  const [formData, setFormData] = useState({ id: '', image: '' });
   const [draggedId, setDraggedId] = useState(null);
 
   const handleAddSlide = () => {
-    if (formData.title && formData.image) {
-      setSlides([
-        ...slides,
-        {
-          id: Math.max(...slides.map((s) => s.id), 0) + 1,
-          title: formData.title,
-          description: formData.description,
-          image: formData.image,
-          active: true,
-          order: slides.length + 1,
-        },
-      ]);
-      setFormData({ title: '', description: '', image: '' });
+    if (formData.id && formData.image) {
+      dispatch(addFeaturedAnime({id:formData.id,image:formData.image,userId:userId.id}));
+      setFormData({ id: '', image: '' });
       setShowForm(false);
     }
   };
@@ -34,7 +43,7 @@ const Slider = () => {
   };
 
   const deleteSlide = (id) => {
-    setSlides(slides.filter((slide) => slide.id !== id));
+    dispatch(removeFeaturedAnime({id,userId:userId.id}));
   };
 
   const moveSlide = (id, direction) => {
@@ -64,33 +73,30 @@ const Slider = () => {
       </div>
 
       {showForm && <AddSlideForm setShowForm={setShowForm} formData={formData} setFormData={setFormData} handleAddSlide={handleAddSlide} /> }
-
-      {slides.length > 0 && (
+{loading ? <div className="my-20 flex justify-center" style={{position:"relative", zIndex:"10"}}><img src="/images/loading.svg" alt="" /></div> :
+<>
+      {featured.length > 0 && (
         <div className="mb-8 bg-white rounded-lg shadow overflow-hidden">
           <h2 className="text-xl font-bold text-gray-900 p-6 border-b border-gray-200">Preview</h2>
           <div className="relative h-64 bg-gray-200">
-            {slides
-              .filter((s) => s.active)
-              .slice(0, 1)
-              .map((slide) => (
-                <div key={slide.id} className="relative w-full h-full">
-                  <img src={slide.image || "/placeholder.svg"} alt={slide.title} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                <div key={featured[currentIndex]?.anime?.mal_id} className="relative w-full h-full">
+                  <img src={featured[currentIndex]?.anime?.landScapeImage} alt={featured[currentIndex]?.anime?.title} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/60 bg-opacity-30 flex items-center justify-center">
                     <div className="text-center text-white">
-                      <h3 className="text-4xl font-bold mb-2">{slide.title}</h3>
-                      <p className="text-lg">{slide.description}</p>
+                      <h3 className="text-4xl font-bold mb-2">{featured[currentIndex]?.anime?.title}</h3>
+                      <p className="text-lg">{featured[currentIndex]?.anime?.synopsis.slice(0,200)+"..."}</p>
                     </div>
                   </div>
                 </div>
-              ))}
           </div>
         </div>
       )}
 
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-gray-900">All Slides</h2>
-        {slides.map((slide, index) => <Slide slide={slide} slides={slides} key={slide.id} index={index} toggleSlideStatus={toggleSlideStatus} deleteSlide={deleteSlide} moveSlide={moveSlide} /> )}
+        {featured.map((slide, index) => <Slide slide={slide.anime} slides={featured} id={slide?._id} key={slide._id} index={index} toggleSlideStatus={toggleSlideStatus} deleteSlide={deleteSlide} moveSlide={moveSlide} /> )}
       </div>
+      </>}
     </div>
   );
 };
