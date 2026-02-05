@@ -1,6 +1,6 @@
 import { Moon, Sun, LogOut } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../store/UserSlice';
+import { logoutUser } from '../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import LandingHeader from '../components/LandingHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAuth, loginUser } from '../store/UserSlice';
+import { checkAuth, loginUser } from '../store/userSlice';
 
 const Login = () => {
   const { isAuthorized, loading, user } = useSelector((state) => state.user);
@@ -27,10 +27,10 @@ const navigate=useNavigate();
         setFormData({ emailOrUsername: '', password: ''});
       };
       useEffect(()=>{
-        if(isAuthorized) {
+        if(user) {
           navigate("/admin")
         }
-      },[isAuthorized, navigate])
+      },[user, loading, navigate])
           
   return (
     <>

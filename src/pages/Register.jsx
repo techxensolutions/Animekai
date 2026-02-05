@@ -2,7 +2,7 @@ import { useState } from 'react';
 import LandingHeader from '../components/LandingHeader';
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { loginUser, registerUser } from '../store/UserSlice';
+import { loginUser, registerUser } from '../store/userSlice';
 
 const Register = () => {
     const dispatch=useDispatch();
