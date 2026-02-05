@@ -20,8 +20,8 @@ const Footer = () => {
             }
         </div>
         <div className='flex gap-4 flex-wrap text-gray-300 text-sm font-bold p-8 pt-0'>
-            <Link to={"request"} className='hover:text-white'>REQUEST</Link>
-            <Link to={"contact"} className='hover:text-white'>CONTACT US</Link>
+            <Link to={"/request"} className='hover:text-white'>REQUEST</Link>
+            <Link to={"/contact"} className='hover:text-white'>CONTACT US</Link>
         </div>
         <hr className='border-gray-300'/>
         <div className='p-8 flex text-wrap justify-between flex-wrap text-sm'>
