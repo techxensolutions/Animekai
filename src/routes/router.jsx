@@ -44,19 +44,19 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: "/request",
+        path: "request",
         element: <RequestPage />,
       },
       {
-        path: "/contact",
+        path: "contact",
         element: <ContactUs />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
     ],

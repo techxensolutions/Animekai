@@ -27,10 +27,10 @@ const navigate=useNavigate();
         setFormData({ emailOrUsername: '', password: ''});
       };
       useEffect(()=>{
-        if(user) {
+        if(isAuthorized) {
           navigate("/admin")
         }
-      },[user, loading, navigate])
+      },[isAuthorized, navigate])
           
   return (
     <>
