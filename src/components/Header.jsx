@@ -1,6 +1,6 @@
 import { ArrowRight, ChevronDown, Filter, Menu, Search, Shuffle, User2, Users2, X } from 'lucide-react'
 import { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import LanguageToggle from './LanguageToggle'
 import { useScrollVisibility } from '../hooks/useScrollVisibility'
 import { useDispatch } from 'react-redux'
@@ -11,7 +11,7 @@ import FiltersContext from '../context/FiltersContext'
 const BASE_URI = import.meta.env.VITE_BACKEND_URI;
 
 const Header = () => {
-    const { appliedFilters, setDraftFilters, setAppliedFilters } = useContext(FiltersContext);
+  const navigate = useNavigate();
     const dispatch = useDispatch();
     const [showDropdown,setShowDropdown] = useState(false);
     const [showGenres,setShowGenres] = useState(false);
@@ -153,9 +153,9 @@ const Header = () => {
           <Shuffle className='h-7 w-7 text-white'/>
           </Link>
           <LanguageToggle/>
-          <Link to={"/login"} className='rounded-full bg-gray-800 p-2'>
+          <button onClick={()=>navigate("/login")} className='rounded-full bg-gray-800 p-2'>
           <User2 className='w-5 h-5 text-white'/>
-          </Link>
+          </button>
           </div>
         </div>
     </header>
@@ -211,9 +211,9 @@ const Header = () => {
           <Shuffle className='h-7 w-7 text-white'/>
           </Link>
           <LanguageToggle/>
-          <Link onClick={()=>setShowDropdown(false)} to={"/login"} className='rounded-full bg-gray-800 p-2'>
+          <button  onClick={()=>{setShowDropdown(false); navigate("/login") }} className='rounded-full bg-gray-800 p-2'>
           <User2 className='w-5 h-5 text-white'/>
-          </Link>
+          </button>
           </div>
       </div>
     </>
